@@ -1,0 +1,5 @@
+{
+	"editor.insertSpaces": false,
+	"javascript.updateImportsOnFileMove.enabled": "always",
+	"typescript.updateImportsOnFileMove.enabled": "always"
+}

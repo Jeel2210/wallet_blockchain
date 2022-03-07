@@ -1,0 +1,15 @@
+DEV_PORT=3000
+DEV_DB=database_development2
+DEV_DB_USER=root
+DEV_DB_PASS=root
+DEV_DB_HOST=localhost
+DEV_TOKEN_SECRET=(gHZ[O
+
+
+
+PROD_PORT=3000
+PROD_DB=database_development2
+PROD_DB_USER=root
+PROD_DB_PASS=root
+PROD_DB_HOST=localhost
+PROD_TOKEN_SECRET=W4NH`ah{+kPZ
