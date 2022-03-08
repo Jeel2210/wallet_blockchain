@@ -21,6 +21,11 @@ userRouter.route('/update-request-status')
     // POST /api/user/update-request-status
     .post(userCtrl.ApproveToPay)
 
+
+userRouter.route('/request-money-by-id')
+    // GET /api/user/request-money-by-id
+    .get(userCtrl.getRequestMoneyById)
+
 userRouter.route('/block-chain')
     // POST /api/user/send-money
     .get(userCtrl.getBlockChainInstance)

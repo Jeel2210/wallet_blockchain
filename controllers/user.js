@@ -671,7 +671,7 @@ const getAllRequestMoneyHistory = async (req, res, next) => {
 				transaction: req.tx
 			});
 
-			countResult = await models.request_money.findAndCountAll({
+			countResult = await models.request_money.count({
 				where:
 				{
 					requested_to_public_key: requestedToPublicKey,
@@ -703,7 +703,7 @@ const getAllRequestMoneyHistory = async (req, res, next) => {
 			countResult = await models.request_money.count({
 				where:
 				{
-					requested_to_public_key: requestorPublicKey,
+					requestor_public_key: requestorPublicKey,
 					// status: status,
 				},
 				// include: [{ model: models.wallet, as: 'requestor' }],
@@ -712,10 +712,10 @@ const getAllRequestMoneyHistory = async (req, res, next) => {
 			});
 		}
 
-		console.log("fetch the History.",countResult)
+		console.log("fetch the History.", countResult)
 		// console.log(result);
-		if (!result) errorMessage('Failed to fetch the request history.', true);
-		let data = new resPattern.successResponse({ result,statusCount:countResult.count }, 'Request History fetched successfully');
+		// if (!result) errorMessage('Failed to fetch the request history.', true);
+		let data = new resPattern.successResponse({ result, statusCount: countResult }, 'Request History fetched successfully');
 		res.status(data.status).json(data);
 	} catch (error) {
 		console.log(`---> `, error);
@@ -724,7 +724,37 @@ const getAllRequestMoneyHistory = async (req, res, next) => {
 
 
 };
+const getRequestMoneyById = async (req, res, next) => {
+	try {
 
+		/** 
+		**/
+
+		let requestId = req.body.request_money_id || req.query.request_money_id;
+
+		console.log("Requestor name : " + parseInt(requestId));
+
+		let resultset = await models.request_money.findOne({
+			where:
+			{
+				request_money_id: requestId,
+			},
+			include: [{ model: models.wallet, as: 'requestor' }, { model: models.wallet, as: 'requested_to' }],
+			transaction: req.tx
+		});
+		console.log("Requested Money details")
+
+		if (!resultset) errorMessage('Request failed.', true);
+
+		let data = new resPattern.successResponse({ data: resultset }, 'Request updated successfully');
+		res.status(data.status).json(data);
+	} catch (error) {
+		console.log(`---> `, error);
+		return next(new resPattern.failedResponse(errorMessage(error)));
+	}
+
+
+};
 
 
 module.exports = {
@@ -749,5 +779,7 @@ module.exports = {
 	//request money
 	requestMoney,
 	ApproveToPay,
-	getAllRequestMoneyHistory
+	getAllRequestMoneyHistory,
+	getRequestMoneyById
+
 };
