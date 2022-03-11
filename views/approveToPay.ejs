@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>approve to pay</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        .container {
+            /* height: 850px; */
+            height: 910px;
+            background: linear-gradient(to top, #bbbaba 9%, #ffffff 100%);
+
+
+            /* background: linear-gradient(to top, #808080 0%, #ffffff 100%); */
+            opacity: 0.8;
+            /* padding: 20px 100px; */
+            /* width: 70%; */
+            max-width: 100%;
+            /* margin-left: 70px;
+            margin-top: 30px; */
+            margin: 30px 40px;
+            /* text-align: c; */
+        }
+
+
+        .navbar {
+            width: 100%;
+            background-color: #a39f9f;
+            overflow: auto;
+        }
+
+        .navbar button {
+            float: left;
+            padding: 12px;
+            /* color: white; */
+            text-decoration: none;
+            font-size: 20px;
+            width: 25%;
+            text-align: center;
+            /* position: fixed; */
+            background-color: lightgray;
+            border: 0px solid white;
+        }
+
+        .navbar button:hover {
+            background-color: rgb(82, 79, 79);
+            /* color: black; */
+        }
+
+        .navbar button.active1 {
+            background-color: #808080;
+        }
+
+
+        @media screen and (max-width: 500px) {
+            .navbar button {
+                float: none;
+                display: block;
+                width: 100%;
+                text-align: left;
+            }
+        }
+
+
+        table {
+            /* margin: 55px 97px; */
+            margin: 34px 0px;
+            /* border-collapse: separate; */
+            border-collapse: collapse;
+            /* border-spacing: 0 30px; */
+            /* border: 1px solid black; */
+            width: 100%;
+            /* padding-left: 90px; */
+        }
+
+        tr {
+            border-bottom: 1px solid rgb(165, 163, 163, 0.7);
+            /* padding-right: 40px; */
+            /* padding-bottom: 50px; */
+            /* margin-bottom: 30px; */
+
+        }
+
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            /* border-bottom: 1px dotted black; */
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 150px;
+            background-color: black;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 1px 0;
+
+            /* Position the tooltip */
+            position: absolute;
+            z-index: 1;
+            font-size: 12px;
+            margin-left: 7px;
+            margin-top: -20px;
+        }
+
+        .tooltip .tooltiptext::after {
+            content: " ";
+            position: absolute;
+            top: 50%;
+            right: 100%;
+            /* To the left of the tooltip */
+            margin-top: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: transparent black transparent transparent;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+        }
+
+        .title {
+            /* text-align: center; */
+            margin-left: 40px;
+            font-size: 30px;
+        }
+
+        .div1 {
+            margin-left: 70px;
+        }
+
+        .info {
+            font-size: 20px;
+            opacity: 0.6;
+        }
+
+        /* thead {
+            padding: 600px;
+        } */
+
+        th {
+            font-size: 16px;
+            color: rgb(51, 50, 50);
+            padding-bottom: 10px;
+            text-align: left;
+            /* padding: 5px 40px 10px 0px; */
+
+            /* padding: 10px; */
+
+            /* padding-right:    -300px !important; */
+            padding-left: 100px;
+        }
+
+        th.height {
+            width: 5%;
+            /* padding-left: 700px; */
+            left: 0;
+            padding-left: 2px;
+            /* padding-right: 10px; */
+        }
+
+
+        th.nonce {
+            width: 11%;
+            /* padding-left: 700px; */
+            left: 0;
+            padding-left: 0px;
+            /* padding-right: 10px; */
+        }
+
+        .date {
+            width: 17%;
+            /* padding-left: 700px; */
+            left: 0;
+            padding-left: 7px;
+            /* padding-right: 10px; */
+        }
+
+        th.hash {
+            width: 30%;
+            padding-left: 2px;
+        }
+
+        td {
+            /* padding-bottom: 50px; */
+            /* margin-right: 40px; */
+
+            /* padding: 10px; */
+            text-align: left;
+            /* padding-right: 140px; */
+            padding: 10px 0px;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+            color: black;
+        }
+
+        .pagination {
+            /* display: inline-block; */
+            /* text-align: center; */
+            display: none;
+            /* margin-left: 800px; */
+            float: right;
+            margin-top: -30px;
+            margin-right: 50px;
+        }
+
+        .pagination button {
+            color: black;
+            float: left;
+            padding: 8px 16px;
+            text-decoration: none;
+            transition: background-color .3s;
+            /* border: 1px solid #ddd; */
+            border: 1px solid rgb(165, 163, 163, 0.7);
+        }
+
+        .pagination button.active {
+            background-color: rgb(68, 67, 67, 0.6);
+            color: white;
+            border: 1px solid rgb(68, 67, 67, 0.6);
+        }
+
+        .pagination button:hover:not(.active, .prev) {
+            background-color: rgb(68, 67, 67, 0.3);
+        }
+
+        .count {
+            margin-left: 60px;
+            margin-top: -10px;
+        }
+
+        .noHover {
+            pointer-events: none;
+        }
+
+        #msg {
+            text-align: center;
+            opacity: 0.8;
+            display: none;
+            opacity: 0;
+        }
+
+        .c1 {
+            margin-top: -45px;
+            position: absolute;
+            font-size: 15px;
+            padding: 5px;
+            border-radius: 3px;
+            /* right: 277px; */
+            right: 272px;
+            width: 75px;
+        }
+
+        .main1 {
+            border: 1px solid #ddd;
+            width: 83%;
+            margin-left: 102px;
+        }
+
+        .action {
+            font-size: 28px;
+            /* border: 1px solid; */
+            opacity: 0.9;
+        }
+
+        .approve {
+            color: green;
+        }
+
+        .reject {
+            color: red;
+        }
+
+        .badge {
+            /* position: absolute; */
+            /* top: -10px;
+            right: -10px; */
+            padding: 5px 8px;
+            border-radius: 50%;
+            background-color: green;
+            color: white;
+            opacity: 0.7;
+            margin-left: 6px;
+            font-size: 14px;
+        }
+
+        .pay {
+            padding: 5px;
+            width: 81px;
+            background: linear-gradient(to right, #666699 0%, #3399ff 100%);
+            /* background: #98c5d7; */
+            color: white;
+            border-radius: 5px;
+            font-size: 16px;
+            border: 2px solid #666699;
+        }
+
+        .pay:hover {
+            color: black;
+        }
+
+        /* The Modal (background) */
+        .modal {
+            display: none;
+            /* display: block; */
+            position: fixed;
+            z-index: 1;
+            padding-top: 241px;
+            left: 75px;
+            top: 0;
+            width: 92%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+            /* z-index: 10; */
+            cursor: pointer;
+        }
+
+        .modal1 {
+            position: fixed;
+            display: block;
+            width: 100%;
+            height: 100%;
+            top: 0px;
+            left: 0px;
+            right: 0px;
+            bottom: 0px;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 10;
+            cursor: pointer;
+        }
+
+        /* Modal Content */
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 22%;
+            /* border: 1px solid; */
+            border-radius: 13px;
+        }
+
+        /* The Close Button */
+        .close {
+            margin-left: -85px;
+        }
+
+        .confirm:hover,
+        .confirm:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .confirm {
+            color: #aaaaaa;
+            font-size: 19px;
+            padding: 4px 10px;
+            text-align: center;
+            border: 1px solid gray;
+            border-radius: 5px;
+            /* font-size: 28px; */
+            font-weight: bold;
+        }
+
+        .b1 {
+            margin: 20px 94px;
+        }
+
+        .alert {
+            padding: 12px 20px;
+            background-color: #f44336;
+            color: white;
+            opacity: 1;
+            transition: opacity 0.6s;
+            margin-bottom: 12px;
+            display: none;
+            width: 83%;
+            margin-left: 102px;
+        }
+
+        .success {
+            background-color: green !important;
+        }
+    </style>
+    <script>
+
+        // window.history.forward();
+        // function noBack() {
+        //     window.history.forward();
+        // }
+        $(document).ready(function () {
+            // refreshPage()
+            // window.location.reload();
+            // console.log('document.URL.indexOf("#")===', document.URL, document.URL.indexOf("#"));
+            // if (document.URL.indexOf("#") == -1) {
+            //     // if (document.URL.indexOf("#")) {
+            //     // Set the URL to whatever it was plus "#loaded".
+            //     url = document.URL + "#loaded";
+            //     location = "#loaded";
+            //     //Reload the page using reload() method
+            //     location.reload(true);
+            // }
+
+
+            // Get login user public key...
+            var loginUserId = Number(JSON.parse(localStorage.getItem("login_user")).userDetails.user_id);
+            console.log('loginUserId-----------------', loginUserId);
+
+            if (localStorage.getItem('approvedData')) {
+                approvedData = JSON.parse(localStorage.getItem('approvedData'));
+                console.log('111111111111111111===approvedData-----', approvedData);
+                updateStatus({ request_money_id: Number(approvedData.request_money_id), status: 'COMPLETED' });
+                localStorage.removeItem('approvedData');
+            }
+
+            let options = {
+                method: 'GET',
+                headers: {
+                    'Content-Type':
+                        'application/json;charset=utf-8'
+                },
+            }
+            let fetchRes = fetch(`http://192.168.1.164:3000/api/user/${loginUserId}`, options);
+            fetchRes.then(res =>
+                res.json()).then(d => {
+                    console.log('d-----------------', d);
+                    let loginUserPublicKey = d.data.userDetails.wallet.public_key
+                    console.log('login user data-----------------------', loginUserPublicKey);
+                    // return loginUserPublicKey;
+                    localStorage.setItem('loginUserPublicKey', loginUserPublicKey)
+                    getData(1, "PENDING");
+                    pagination("btn1")
+                })
+        });
+        console.log('=============================', localStorage.getItem('loginUserPublicKey'));
+        data = {
+            public_key: localStorage.getItem('loginUserPublicKey')
+        }
+        console.log('daat===================', data);
+        // localStorage.removeItem('loginUserPublicKey');
+        function getData(currentPage, status) {
+            var data = {
+                requested_to_public_key: localStorage.getItem('loginUserPublicKey'),
+                status: status //'PENDING'
+            }
+            console.log('daat===================', data);
+            // localStorage.removeItem('loginUserPublicKey');
+            // pagination("#btn1")
+            let queryParams = { page: Number(currentPage), limit: 15 };
+            data = { ...data, ...queryParams }
+            $.ajax({
+                url: 'http://192.168.1.164:3000/api/user/request-money-history', //+ $.param(queryParams),
+                type: 'GET',
+                dataType: 'json',
+                data: data,
+                success: function (response) {
+                    // pagination("btn1")
+                    console.log('request-money-history ---history---', response);
+                    console.log('aaaaaaaaaaaaaa', response.data.result);
+                    // response.data = []
+                    let history = response.data.result.rows;
+                    console.log('history===', history);
+                    let total = response.data.result.count;
+                    var countFor = '';
+                    var action = '';
+                    const countStatus = ['PENDING', 'INPROGRESS', 'COMPLETED', 'REJECTED'];
+                    let getStatus = response.data.statusCount.map(e => e.status);
+                    console.log('response.data.statusCount', response.data.statusCount, 'getStatus', getStatus);
+                    countStatus.forEach((s, i) => {
+                        countFor = getCountId(s);
+                        if (getStatus.includes(s)) {
+                            $(countFor).text(response.data.statusCount.find(e => e.status == s).count);
+                        } else {
+                            $(countFor).text(0);
+                        }
+                    });
+                    // console.log('actions ====', action);
+
+                    if (history.length == 0) {
+                        $("#msg").css("display", "block")
+                        $("#msg").css("opacity", "1.0")
+                        $("#msg").html(`No Record found .`)
+                        $('#tableBody').html('');
+                        $("#p1").html('')
+                    } else {
+                        $("#msg").css("display", "none")
+                        console.log('total----------------', total);
+                        // $("#pending-count").text(total);
+                        let reqTotalPages = Math.ceil(total / data.limit);
+                        console.log('reqTotalPages--------------', reqTotalPages);
+
+                        localStorage.setItem('reqTotalPages', reqTotalPages)
+                        let skip = skipData(currentPage, data.limit)
+                        console.log('currentPage------------', currentPage, reqTotalPages, skip);
+                        $("#p1").html(`Showing ${skip + 1} to ${total} of ${total} entries`)
+                        var trHTML = '';
+                        console.log('r---------test-----------', response, history.length);
+                        if (total > data.limit) {
+                            // pagination("btn1")
+                            $("#pagination").attr("style", "opacity:1")
+                            $("#pagination").attr("style", "display:inline-block");
+                            let tPage = skip + data.limit > total ? total : skip + data.limit;
+                            $("#p1").html(`Showing ${skip + 1} to ${tPage} of ${total} entries`)
+
+                            // pagination("btn1")
+                        }
+                        $.each(history, function (i, value) {
+                            // (status == 'PENDING' ? "#pending-count" : (status == 'INPROGRESS' ? "#approve-count" : (status == "COMPLETED" ? "#complete-count" : "#decline-count")));
+                            if (status == 'PENDING') {
+                                // countFor = "#pending-count";
+                                action = `<td class="action"><i class="fa fa-check-circle approve" id=${value.request_money_id} title="Approve"  onclick="approvePayment(this.id)"></i>
+                            <i class='fa fa-times-circle reject' id=${value.request_money_id} title="Decline" onclick="rejectPayment(this.id)"></i>
+                        </td>`
+                            }
+                            if (status == 'INPROGRESS') {
+                                // countFor = "#approve-count";
+                                action = `<td class="action"><button class="pay" id=${value.request_money_id} title="Payment"  onclick="payMoney(this.id)">Pay Now</button></td>`;
+                            }
+                            // if (status == 'COMPLETED') {
+                            //     countFor = "#complete-count";
+                            //     action = `<td class="action"><button class="pay" id="view" title="View Detail">View</button></td>`;
+                            // }
+                            // if (status == 'REJECTED') {
+                            //     countFor = "#decline-count";
+                            //     action = `<td class="action"><button class="pay" id="view" title="View Detail">View</button></td>`;
+                            // }
+
+
+                            var timestamp = (status == "PENDING") ? value.created_at : value.updated_at;
+                            var date = timestamp.replace("T", ' ').replace('.000Z', '');
+                            var date1 = date.split(' ')[0].split('-');
+                            date = date1[2] + '/' + date1[1] + '/' + date1[0] + ' ' + date.split(' ')[1]
+                            // if (action == '') {
+                            //     $("#action").css("display", "none")
+                            // }
+                            trHTML += '<tr class="border-bottom">' +
+                                `<td><a id="" href=""> ${value.requestor.address}</a></td>` +
+                                `<td><a id="" href="">${value.amount}</a></td>` +
+                                '<td class = "date">' + date + '</td>' +
+                                // action +
+                                (action ? action : "")
+                            '</tr>';
+                        });
+                        // $('#approveToPay').append(trHTML);
+                        $('#tableBody').html(trHTML);
+
+                    }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    console.log('Error in Operation');
+                }
+            });
+        }
+
+        // })
+    </script>
+</head>
+
+<body>
+
+    <!-- <body onLoad="noBack();" onpageshow="if (event.persisted) noBack();" onUnload=""> -->
+    <div class="container">
+
+        <div class="div1">
+            <h1 class="title"><i>Approve To Pay</i></h1>
+            <button class="c1" onclick="window.location='http://192.168.0.120:2002/wallet/'">Cancel</button>
+        </div>
+        <div id="success" class="alert success">
+        </div>
+        <div id="error" class="alert">
+        </div>
+
+        <div id="myModal" class="modal">
+
+            <!-- Modal content -->
+            <div class="modal-content">
+                <!-- <span class="close">&times;</span> -->
+                <p id="confirmMsg" style="margin-left: 20px"></p>
+                <button class="confirm b1" id="confirm">Yes</button>
+                <button class="close confirm" id="close">No</button>
+            </div>
+
+        </div>
+
+        <div class="main1">
+            <div class="navbar">
+                <button id="pending" class="active1">Pending <span id="pending-count" class="badge"></span></button>
+                <button id="approve">Approved <span id="approve-count" class="badge"></span></button>
+                <button id="complete">Completed <span id="complete-count" class="badge"></span></button>
+                <button id="decline">Declined <span id="decline-count" class="badge"></span></button>
+            </div>
+
+            <table id="approveToPay">
+                <thead>
+                    <tr>
+                        <th class="hash">Requester</th>
+                        <th class="nonce">Amount($)</th>
+                        <th class="date" id="status-date">Requested At</th>
+                        <th class="nonce" id="action">Action</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <!-- <tr class="border-bottom">
+                        <td>8618340bd857f4c8b036879f95d10cb68ede2e2b3d689c62734ce39274513837</td>
+                        <td>200</td>
+                        <td>12/10/2021 13:30:40</td>
+                        <td class="action"><i class="fa fa-check-circle approve" id="1" title="Approve"
+                                onclick="approvePayment(this.id)"></i>
+                            <i class='fa fa-times-circle reject' id="1" title="Decline"
+                                onclick="rejectPayment(this.id)"></i>
+                        </td>
+                    </tr>
+                    <tr class="border-bottom">
+                        <td>8618340bd857f4c8b036879f95d10cb68ede2e2b3d689c62734ce39274513837</td>
+                        <td>200</td>
+                        <td>12/10/2021 13:30:40</td>
+                        <td class="action"><button class="pay" id="pay" title="Payment">Pay Now</button></td>
+                    </tr> -->
+                </tbody>
+            </table>
+            <p id="msg"></p>
+            <div>
+                <div class="count">
+                    <!-- <p id="p1">Showing 1 to 15 of 20 entries</p> -->
+                    <p id="p1" style="margin-left: -60px"></p>
+                </div>
+                <div id="pagination" class="pagination">
+                    <button id="prev" class="prev" disabled>&laquo;</button>
+                    <button id="btn1" class="active" onclick="pagination(this.id)">1</button>
+                    <button id="btn2" onclick="pagination(this.id)">2</button>
+                    <button id="btn3" onclick="pagination(this.id)">3</button>
+                    <button id="next" class="next">&raquo;</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+<script>
+
+    function refreshPage() {
+        setTimeout(() => {
+            window.location.reload();
+        }, 1000);
+    }
+    function getCountId(status) {
+        return (status == 'PENDING' ? "#pending-count" : (status == 'INPROGRESS' ? "#approve-count" : (status == "COMPLETED" ? "#complete-count" : "#decline-count")));
+    }
+    // pagination("btn1")
+    // $("#pagination").attr("style", "opacity:1")
+    // $("#pagination").attr("style", "display:inline-block")
+    totalPages = Number(localStorage.getItem('totalPages'));
+    function pagination(pageId) {
+        if (Number($("#btn2").text()) > totalPages) {
+            $("#btn2").attr("disabled", true)
+            $("#btn2").addClass('noHover')
+            $("#btn3").attr("disabled", true)
+            $("#btn3").addClass('noHover')
+            $("#next").attr("disabled", true)
+            $("#next").addClass('noHover')
+        } else {
+            if (Number($("#btn3").text()) > totalPages) {
+                $("#btn3").attr("disabled", true)
+                $("#btn3").addClass('noHover')
+                $("#next").attr("disabled", true)
+                $("#next").addClass('noHover')
+            }
+
+            else if (Number($("#btn3").text()) == totalPages) {
+                $("#next").attr("disabled", true)
+                $("#next").addClass('noHover')
+            } else {
+                $("#next").attr("disabled", false)
+                $("#next").removeClass('noHover')
+            }
+
+        }
+
+        let getBtn = document.getElementById(pageId);
+        page = Number($(`#${pageId}`).text());
+        console.log('page-------------------', page);
+        let activeElementId = document.getElementsByClassName('active')[0].id;
+        console.log('activeElementId============', activeElementId);
+        $(`#${activeElementId}`).removeClass('active');
+        $(`#${pageId}`).addClass('active');
+        if (page == 1) {
+            $("#prev").attr("disabled", true)
+            $("#prev").addClass('noHover')
+            // return getData(page);
+        } else {
+            if (page > 1 && page < totalPages) {
+                $("#prev").attr("disabled", false)
+                $("#prev").removeClass('noHover')
+
+                $("#next").attr("disabled", false)
+                $("#next").removeClass('noHover')
+                return getData(page);
+            }
+            if (page >= totalPages) {
+                $("#next").attr("disabled", true)
+                $("#next").addClass('noHover')
+
+                $("#prev").attr("disabled", false)
+                $("#prev").removeClass('noHover')
+                return getData(page);
+            }
+            if (page > totalPages) {
+                $(`#${pageId}`).attr("disabled", true)
+                $(`#${pageId}`).addClass('noHover')
+                return getData(page);
+            }
+
+        }
+        // return getData(page);
+        // getData(pageId)
+    }
+
+    $("#next").click(function () {
+        activeBtnId = document.getElementsByClassName('active')[0].id
+        if (activeBtnId == 'btn1') {
+            $(`#btn1`).removeClass('active');
+            $(`#btn2`).addClass('active');
+            return getData($(`#btn2`).text());
+        }
+        else if (activeBtnId == 'btn2') {
+            $(`#btn2`).removeClass('active');
+            $(`#btn3`).addClass('active');
+            return getData($(`#btn3`).text());
+        } else {
+            btns = document.getElementsByTagName("button");
+            lastbtnVal = Number($("#btn3").text());
+            $("#btn1").html(Number($("#btn1").text()) + 3);
+            $("#btn2").html(Number($("#btn2").text()) + 3);
+            $("#btn3").html(Number($("#btn3").text()) + 3);
+
+            ["btn1", "btn2", "btn3"].forEach(b => pagination(b))
+            $(`#btn1`).addClass('active');
+            $(`#btn3`).removeClass('active');
+            return getData($(`#btn1`).text());
+        }
+    })
+
+    $("#prev").click(function () {
+        activeBtnId = document.getElementsByClassName('active')[0].id
+        if (activeBtnId == 'btn3') {
+            $(`#btn3`).removeClass('active');
+            $(`#btn2`).addClass('active');
+            return getData($(`#btn2`).text());
+        }
+        if (activeBtnId == 'btn2') {
+            $(`#btn2`).removeClass('active');
+            $(`#btn1`).addClass('active');
+            if ($(`#${activeBtnId}`).text() == 2) {
+                $("#prev").attr("disabled", true)
+                $("#prev").addClass('noHover')
+            }
+            return getData($(`#btn1`).text());
+        }
+        if (activeBtnId == 'btn1') {
+            $(`#btn1`).removeClass('active');
+            $(`#btn3`).addClass('active');
+
+
+            if ($(`#${activeBtnId}`).text() == 1) {
+                $("#prev").attr("disabled", true)
+                $("#prev").addClass('noHover')
+            }
+            btns = document.getElementsByTagName("button");
+            lastbtnVal = Number($("#btn3").text());
+            $("#btn1").html(Number($("#btn1").text()) - 3);
+            $("#btn2").html(Number($("#btn2").text()) - 3);
+            $("#btn3").html(Number($("#btn3").text()) - 3);
+
+            ["btn1", "btn2", "btn3"].forEach(b => pagination(b))
+            $("#btn2").attr("disabled", false)
+            $("#btn2").removeClass('noHover')
+            $("#btn3").attr("disabled", false)
+            $("#btn3").removeClass('noHover')
+            return getData($(`#btn3`).text());
+        }
+    })
+
+    function skipData(page, limit = 15) {
+        skip = (page - 1) * limit;
+        return skip;
+    }
+
+    let page = document.getElementById("pagination");
+    var prev = $(".pagination 1");
+    var active = $(".pagination a.active");
+
+
+    // Status changes ...
+    $("#pending").click(function () {
+        $("#action").css("display", "block")
+        activeEle = document.getElementsByClassName('active1')[0].id;
+        console.log('activeEle', activeEle);
+        if (activeEle !== "pending") {
+            window.location = 'http://192.168.0.120:2002/approve/to-pay/';
+        }
+    })
+
+    $("#approve").click(function () {
+        $("#action").css("display", "block")
+        activeEle = document.getElementsByClassName('active1')[0].id;
+        console.log('activeEle===========', activeEle);
+        $("#approve").addClass('active1')
+        $(`#${activeEle}`).removeClass('active1');
+        $("#status-date").text('Approved At');
+        getData(1, "INPROGRESS");
+        pagination("btn1");
+    })
+
+    $("#complete").click(function () {
+        $("#action").css("display", "none")
+        activeEle = document.getElementsByClassName('active1')[0].id;
+        console.log('activeEle', activeEle);
+        $("#complete").addClass('active1')
+        $(`#${activeEle}`).removeClass('active1');
+        $("#status-date").text('Completed At');
+        // $("#action").css("display", "none")
+        getData(1, "COMPLETED");
+        pagination("btn1");
+    })
+
+    $("#decline").click(function () {
+        $("#action").css("display", "none")
+        activeEle = document.getElementsByClassName('active1')[0].id;
+        console.log('activeEle', activeEle);
+        $("#decline").addClass('active1')
+        $(`#${activeEle}`).removeClass('active1');
+        $("#status-date").text('Rejected At');
+        getData(1, "REJECTED");
+        pagination("btn1");
+    })
+
+
+    // Approve or reject click...
+    function approvePayment(docId) {
+        console.log('docId==========', docId);
+        let data = { request_money_id: Number(docId), status: 'INPROGRESS' }
+        // confirm model...
+        confirmModal(docId, 'approve', data)
+        // updateStatus(data);
+    }
+    function rejectPayment(docId) {
+        console.log('docId==========', docId);
+        let data = { request_money_id: Number(docId), status: 'REJECTED' }
+        console.log('re11111111111111111', data);
+        // confirm model...
+        confirmModal(docId, 'reject', data)
+        // updateStatus(data);
+    }
+
+    function payMoney(docId) {
+        console.log('docId=====payMoney=====', docId);
+        let data = { request_money_id: Number(docId), status: 'REJECTED' }
+        // confirm model...
+        confirmModal(docId, 'payment', data, `Do you want to payment?`)
+        // updateStatus(data);
+    }
+
+    function updateStatus(body) {
+        $.post('http://192.168.1.164:3000/api/user/update-request-status/', body, function (response) {
+            // alert("success");
+            if (!response.success) {
+                $("#error").attr("style", "opacity:1")
+                $("#error").attr("style", "display:block")
+                $('#error').html(`<strong>ERROR!</strong> ${response.message}`);
+            } else {
+                console.log('response.data.chain.length---------------', response.data);
+                $("#error").attr("style", "opacity:0")
+                $("#error").attr("style", "display:none")
+
+                $("#myModal").css("display", "none");
+                window.location = 'http://192.168.0.120:2002/approve/to-pay/'
+                $("#success").attr("style", "opacity:1")
+                $("#success").attr("style", "display:block")
+                $('#success').html(`<b>${response.message}!</b> `);
+            }
+        });
+    }
+
+
+    function confirmModal(id, status, data, msg = '') {
+        // Get the modal
+        var modal = document.getElementById("myModal");
+        // Get the button that opens the modal
+        var btn = document.getElementById(id);
+        $("#myModal").css("display", "block");
+        msg = msg ? `<b> ${msg} </b>` : `<b> Are you sure ${status} the request?</b>`
+        $("#confirmMsg").html(msg) //`<b> ${msg} </b>` || `<b> Are you sure ${status} the request?</b>`);
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+        $("#close").click(() => {
+            console.log('close....');
+            $("#myModal").css("display", "none");
+        })
+        $("#confirm").click((e) => {
+            e.preventDefault()
+            if (status == 'payment') {
+                // window.location = 'http://192.168.0.120:2002/add-block/';
+                // console.log('other----------' ,  $('#t3').val());
+                // debugger
+                $.ajax({
+                    url: `http://192.168.1.164:3000/api/user/request-money-by-id`, // + $.param({ user_id: Number(loginUserId) }),
+                    type: 'GET',
+                    dataType: 'json',
+                    data: { request_money_id: id },
+                    success: function (res) {
+                        // console.log('00000000000', res);
+                        console.log('res===== 3======.........', res);
+                        let users = res.data.data_list;
+                        address = res.data.data.requestor.address;
+                        receiverKey = res.data.data.requestor.public_key;
+                        amount = res.data.data.amount;
+                        // -------
+                        let body = { request_money_id: id, payeer_public_key: localStorage.getItem('loginUserPublicKey'), payee_public_key: receiverKey, amount: amount, requestor: address }
+                        $.post('http://192.168.1.164:3000/api/user/create-transaction-hash', body, function (response) {
+                            // alert("success");
+                            console.log('response===hashhhhhhhhhhhhh==', response);
+                            if (!response.success) {
+                                $("#error").attr("style", "opacity:1")
+                                $("#error").attr("style", "display:block")
+                                $('#error').html(`<strong>ERROR!</strong> ${response.message}`);
+                            } else {
+                                $("textarea#t1").attr("value", response.data);
+                                body.transaction_hash = response.data;
+                                $.post('http://192.168.1.164:3000/api/user/add-signture', body, function (response) {
+                                    // alert("success");
+                                    localStorage.setItem('signature', JSON.stringify(response.data.signature))
+                                    console.log('response===ssssssssssssssss==', response.data.signature.data.toString());
+                                    body.signature = response.data.signature.data.toString();
+                                    console.log('bbbbbbbbbbbbbbbb', body);
+                                    localStorage.setItem('approvedData', JSON.stringify(body));
+                                    if (!response.success) {
+                                        $("#error").attr("style", "opacity:1")
+                                        $("#error").attr("style", "display:block")
+                                        $('#error').html(`<strong>ERROR!</strong> ${response.message}`);
+                                    } else {
+                                        // $("textarea#t4").attr("value", response.data.signature.data.toString());
+                                        window.location = 'http://192.168.0.120:2002/add-block/';
+                                    }
+                                });
+
+                            }
+                        });
+                        // ---------
+
+
+
+                        // $("#height").attr("value", lastTransaction.height);
+                        // $("#nonce").attr("value", lastTransaction.nonce);
+                        // $("#prevHash").attr("value", lastTransaction.prevHash);
+                        // $("#txn").attr("value", lastTransaction.transaction);
+                        // $("#ts").attr("value", lastTransaction.ts);
+                        // users.forEach(user => {
+                        //     // console.log("all user ---------", user);
+                        //     // $('#user').append(`<option value="${user}" id=${user.id}> ${user}</option>`);
+                        //     selectElement.options[selectElement.options.length] = new Option(user.name, user.user_id);
+                        // });
+                    }
+                });
+            } else {
+                updateStatus(data);
+            }
+        })
+
+    }
+</script>
+
+</html>

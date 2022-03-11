@@ -1,0 +1,64 @@
+<html>
+
+<head>
+    <title>
+        Home Page
+    </title>
+    <style>
+        body {
+            background-color: lightblue;
+            padding: 50px;
+            text-align: center;
+        }
+
+        .container {
+            height: 600px;
+            background-color: rgb(219, 214, 214, 0.5);
+            /* width: 70%; */
+            max-width: 40%;
+            margin-left: 400px;
+            margin-top: 30px;
+            padding-top: 20px;
+        }
+
+        div {
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px;
+            font-size: 18px;
+            border-radius: 5px;
+            color: rgb(85, 83, 201);
+            background-color: rgba(104, 159, 231, 0.5);
+            width: 30%;
+        }
+
+        button:hover {
+            color: white
+        }
+    </style>
+    <!-- <script type="text/javascript"> 
+        function preventBack() {
+            window.history.forward();
+            // window.history.back();
+        }
+        setTimeout("preventBack()", 4000); window.onunload = function () { null }; -->
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Welcome..</h1>
+        <br>
+        <div> <button class="logout" onclick="window.location='http://192.168.0.120:2002/users/register'">Register
+                Here</button>
+        </div>
+        <button class="logout" onclick="window.location='http://192.168.0.120:2002/users/login'">Login</button>
+
+        <!-- <a href="http://192.168.0.120:2002/users/register/">registration</a><br><br> -->
+        <!-- <a href="http://192.168.0.120:2002/users/login">login</a> -->
+    </div>
+</body>
+
+</html>

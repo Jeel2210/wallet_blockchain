@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Wallet page</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: rgb(79, 79, 82, 0.2);
+            margin: 0;
+            font-family: "Lato", sans-serif;
+            /* font-family: Arial, Helvetica, sans-serif; */
+
+        }
+
+        /* * {
+            box-sizing: border-box;
+        } */
+
+        .sidebar {
+            /* height: 75%; */
+            height: 94%;
+            width: 0;
+            position: fixed;
+            z-index: 1;
+            /* top: 45px; */
+            top: 16px;
+            /* left: 100; */
+            background-color: rgb(128, 123, 123, 0.5);
+            overflow-x: hidden;
+            transition: 0.5s;
+            /* padding-top: 100px; */
+            padding-top: 20px;
+            max-width: 200px;
+            margin-left: 16px;
+        }
+
+        .sidebar a {
+            padding: 18px 18px 18px 20px;
+            /* padding: 8px     ; */
+            text-decoration: none;
+            font-size: 20px;
+            /* color: #818181; */
+            color: black;
+            display: block;
+            transition: 0.3s;
+            /* margin-top: 40px; */
+        }
+
+        .sidebar a:hover {
+            color: #f1f1f1;
+            color: rgb(70, 70, 71);
+        }
+
+        .sidebar .closebtn {
+            position: absolute;
+            top: 0;
+            /* right: 25px; */
+            right: 20px;
+            font-size: 36px;
+            margin-left: 50px;
+        }
+
+        .openDiv {
+            /* background-color: #111; */
+            background-color: rgb(128, 123, 123, 0.7);
+            max-width: inherit;
+            /* margin-left: 100px; */
+        }
+
+        .openbtn {
+            font-size: 20px;
+            cursor: pointer;
+            /* background-color: #111; */
+            background-color: rgb(128, 123, 123);
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            /* width: inherit; */
+            /* max-width: 50%; */
+            /* position: relative; */
+            /* max-width: 400px; */
+        }
+
+        .active {
+            /* background-color: rgb(224, 217, 217); */
+            /* color: black; */
+            /* border: 1px solid black; */
+            color: black !important;
+            background-color: rgb(108, 108, 114, 0.4);
+
+        }
+
+        .active:hover {
+            color: rgb(70, 70, 71) !important;
+        }
+
+        .logout {
+            height: 32px;
+            font-size: 15px;
+            margin: 10px;
+            float: right;
+            border-radius: 5px;
+            background-color: rgb(204, 195, 195);
+            margin-right: 81px;
+        }
+
+        .openbtn:hover {
+            background-color: #444;
+        }
+
+        .logout:hover {
+            /* background-color: rgba(168, 164, 164); */
+            background-color: rgb(75, 72, 72) !important;
+            color: white !important;
+        }
+
+        #main {
+            transition: margin-left .5s;
+            padding: 16px;
+            /* background-color: rgb(152, 140, 231 , 0.6); */
+        }
+
+        .container {
+            height: 761px;
+            /* border-radius: 5px; */
+            /* background-color: #f2f2f2; */
+            /* background: linear-gradient(to bottom, #ffcc66 0%, #cc99ff 100%); */
+            background: linear-gradient(to top, #808080 9%, #ffffff 100%);
+            /* padding: 20px 100px; */
+            /* width: 70%; */
+            max-width: 50%;
+            margin-left: 400px;
+            margin-top: 30px;
+            /* text-align: c; */
+        }
+
+        .text {
+            text-align: center;
+        }
+
+        .text1 {
+            /* line-height: 1px; */
+            margin-bottom: -30px;
+        }
+
+        .cl {
+            color: green;
+            opacity: 0.6;
+            /* padding-left: 500px; */
+        }
+
+        .s1 {
+            font-size: 18px !important;
+            /* padding-left: 300px; */
+            letter-spacing: -5px;
+        }
+
+        .div1 {
+            margin-top: 60px;
+            /* background-color: red !important; */
+        }
+
+        .div2 {
+            /* background-color: white; */
+            background-color: rgb(240, 239, 239, 0.7);
+            /* max-width: 35%; */
+            max-width: 40%;
+            height: 200px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 50px;
+            color: #80bfff;
+            /* padding: 20px; */
+        }
+
+        .mrgin {
+            top: 50px;
+        }
+
+        .col-70 {
+            float: left;
+            width: 70%;
+            /* height: 30%; */
+            margin-top: 16px;
+            /* padding-right: -60px; */
+            /* margin-right: 1px; */
+            margin-left: 100px;
+        }
+
+        .col {
+            margin-left: 20px !important;
+        }
+
+        .col-100 {
+            /* max-width: 2002px !important; */
+            max-width: 80% !important;
+            /* width: 900px !important; */
+            height: 170px !important;
+            padding: 10px;
+            /* float: right; */
+        }
+
+        .btn {
+            /* border-radius: 100%;
+    font-size: 50px ; */
+            display: block;
+            height: 130px;
+            width: 130px;
+            border-radius: 50%;
+            border: 0px solid black;
+            font-size: 70px !important;
+            /* color: #4da6ff !important; */
+            color: #538cc6 !important;
+            /* opacity: 0.7; */
+            /* background-color: white; */
+            margin-top: 10px;
+            /* padding: -10px; */
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn1 {
+            margin-left: 50px !important;
+        }
+
+        .div3 {
+            margin-top: 280px;
+        }
+
+        .divTxt {
+            font-size: 30px !important;
+            color: black;
+            opacity: 0.7;
+            margin-top: 15px;
+        }
+
+        .col-10 {
+            max-width: 200px !important;
+        }
+
+        .col-20 {
+            margin-top: -100px;
+            margin-left: 200px;
+            padding-right: -300px;
+            float: left;
+            /* margin-left: 200px; */
+        }
+
+        #uname {
+            color: #3973ac;
+            font-size: 25px;
+        }
+
+        .footer {
+            /* margin-top: 698px; */
+            margin-top: 600px;
+            background-color: #a5a1a1;
+            padding: 30px;
+            height: 100px;
+            /* height: 80px; */
+        }
+
+        #lab_social_icon_footer {
+            /* margin-left: 100px; */
+            float: right;
+            padding: 40px;
+            margin: -55px 60px;
+
+            /* background-color: #dedede; */
+        }
+
+        #lab_social_icon_footer a {
+            color: #333;
+        }
+
+        #lab_social_icon_footer .social:hover {
+            -webkit-transform: scale(1.1);
+            -moz-transform: scale(1.1);
+            -o-transform: scale(1.1);
+        }
+
+        #lab_social_icon_footer .social {
+            -webkit-transform: scale(0.8);
+            /* Browser Variations: */
+
+            -moz-transform: scale(0.8);
+            -o-transform: scale(0.8);
+            -webkit-transition-duration: 0.5s;
+            -moz-transition-duration: 0.5s;
+            -o-transition-duration: 0.5s;
+        }
+
+        /*
+    Multicoloured Hover Variations
+*/
+
+        #lab_social_icon_footer #social-fb:hover {
+            color: #3B5998;
+        }
+
+        #lab_social_icon_footer #social-tw:hover {
+            color: #4099FF;
+        }
+
+        #lab_social_icon_footer #social-gp:hover {
+            color: #d34836;
+        }
+
+        #lab_social_icon_footer #social-em:hover {
+            color: #f39c12;
+        }
+
+        .info {
+            padding: 40px;
+            font-size: 18px;
+            opacity: 0.7;
+        }
+
+        /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+        /* @media screen and (max-height: 450px) {
+            .sidebar {
+                padding-top: 15px;
+            }
+
+            .sidebar a {
+                font-size: 18px;
+            }
+        } */
+    </style>
+    <!-- <script type="text/javascript">
+        function preventBack() { window.history.back(); }
+        setTimeout("preventBack()", 0);
+        window.onunload = function () { null };  
+    </script> -->
+
+    <script>
+        jQuery(document).ready(function ($) {
+            console.log('1.............');
+            if (window.history && window.history.pushState) {
+                window.history.pushState('forward', null, './#forward');
+                $(window).on('popstate', function (e) {
+                    console.log('Back button was pressed.', e);
+                    // var d = e.state || { data: 'no state' };
+                    // console.log('ddddddddddddddddddd', d);
+                    window.location.replace("http://192.168.0.120:2002/users/register");
+                });
+
+            }
+        });
+
+    </script>
+
+</head>
+
+<!-- <body onload="myFunction()"> -->
+
+<body>
+
+    <!-- <img src="request_to_money.png" alt="request"> -->
+    <div class="container-fluid">
+        <div id="mySidebar" class="sidebar">
+            <!-- <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a> -->
+            <a href="#" class="active"><i class="fa fa-fw fa-home"></i> Home</a>
+            <!-- <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a> -->
+            <!-- <a href="#"><i class="fa fa-exchange"></i> Send Money</a> -->
+            <!-- <a href="#"><i class="fa fa-exchange"></i> Request</a> -->
+            <a href="http://192.168.0.120:2002/send/request/history" style="white-space: nowrap;"><i
+                    class='fa-solid fa-hand-holding-dollar'></i> Request History</a>
+            <a href="#"><i class="fa fa-exchange"></i> About us</a>
+            <!-- <a href="#"><i class="fa fa-exchange"></i> Approve To Pay</a> -->
+
+
+            <!-- <a href="#">Clients</a> -->
+            <!-- <a href="#">Contact</a> -->
+        </div>
+
+        <!-- <div style="border: 1px solid black;"> -->
+
+        <div id="main">
+            <div class="openDiv"> <button class="openbtn" onclick="openNav()">☰</button>
+                <button class="logout" id="logout"
+                    onclick="window.location='http://192.168.0.120:2002/users/register'">Logout</button>
+            </div>
+            <div class="text">
+                <h2 id="uname"></h2>
+                <!-- <p id="uname"><i>Welcome Labhu </i> </p> -->
+                <p class="text1">Available Cash</p>
+                <h1 class="cl" id="cash">
+                    <!-- <sup> <span class="s1">$</span> </sup> -->
+                    <!-- <h1 class="cl"><sup> <span class="s1">$</span> </sup>33 -->
+                </h1>
+            </div>
+
+            <div class="div1">
+                <div class="row">
+
+                    <div class="col-70 div2">
+                        <!-- <div> <i class="fa fa-paper-plane" aria-hidden="true"></i></div>
+                        <button class="btn">Send Money</button> -->
+                        <div><button class="btn" onclick="window.location='http://192.168.0.120:2002/add-block'"> <i
+                                    class="fa fa-paper-plane-o" aria-hidden="true"></i> </button></div>
+                        <!-- // 	fa fa-paper-plane-o -->
+                        <p class="divTxt"><b> Send Money</b></p>
+                    </div>
+                    <div class="col-70 div2 col">
+                        <div><button class="btn" onclick="window.location='http://192.168.0.120:2002/send/request'">
+                                <!-- <i class="fas fa-hand-holding-usd" aria-hidden="true"></i>  -->
+                                <i class='fa-solid fa-hand-holding-dollar'></i>
+                                <a
+                                    href="C:\Users\labhu\@moon-project\BHARAT SIR TASK\BITCOIN - Copy\public\images\request to money.png"></a>
+                            </button>
+                        </div>
+                        <p class="divTxt"><b> Request</b></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="div1">
+                <div class="row">
+
+                    <div class="col-70 div2">
+                        <!-- <div> <i class="fa fa-paper-plane" aria-hidden="true"></i></div>
+                        <button class="btn">Send Money</button> -->
+                        <div>
+                            <!-- <button class="btn" onclick="window.location='http://192.168.0.120:2002/add-block'"> <i
+                                    class="fa fa-paper-plane-o" aria-hidden="true"></i> </button> -->
+                            <button class="btn"
+                                onclick="window.location='http://192.168.0.120:2002/transaction/history'">
+                                <i class="fa fa-reorder"></i>
+                                <!-- <i class="icon-reorder"></i> -->
+                            </button>
+
+                        </div>
+                        <!-- // 	fa fa-paper-plane-o -->
+                        <p class="divTxt"><b> Transactions</b></p>
+                    </div>
+                    <div class="col-70 div2 col">
+                        <div><button class="btn" onclick="window.location='http://192.168.0.120:2002/approve/to-pay'">
+                                <!-- <i class="fas fa-hand-holding-usd" aria-hidden="true"></i> -->
+                                <!-- <i class='fa-solid fa-handshake'></i> -->
+                                <i class="fa fa-handshake-o"></i>
+                            </button>
+                        </div>
+                        <p class="divTxt"><b> Approve To Pay</b></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="div1">
+                <div class="row div3">
+
+                    <div class="col-70 col-100 div2">
+                        <div class="row">
+                            <div class="col-10">
+                                <button class="btn btn1"
+                                    onclick="window.location='http://192.168.0.120:2002/transaction/history'"> <i
+                                        class="fa fa-reorder"></i></button>
+                            </div>
+                            <div class="col-20">
+                                <p class="divTxt"><b> Transactions History</b></p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div> -->
+
+            <div class="footer">
+                <!-- Include Font Awesome Stylesheet in Header -->
+
+                <div class="info">
+                    <div style="float: left;">
+                        <a href="https://builtin.com/blockchain" target="new">About</a>
+                        <a style="padding-left: 15px;" href="https://builtin.com/blockchain" target="new">Support</a>
+                        <a style="padding-left: 15px;" href="https://builtin.com/blockchain" target="new">Help</a>
+                        <a style="padding-left: 15px;" href="https://builtin.com/blockchain" target="new">Fees</a>
+                    </div>
+                    <section id="lab_social_icon_footer">
+                        <div class="text-center center-block">
+                            <a href="https://www.facebook.com/bootsnipp"><i id="social-fb"
+                                    class="fa fa-facebook-square fa-3x social"></i></a>
+                            <a href="https://twitter.com/bootsnipp"><i id="social-tw"
+                                    class="fa fa-twitter-square fa-3x social"></i></a>
+                            <a href="https://plus.google.com/+Bootsnipp-page"><i id="social-gp"
+                                    class="fa fa-google-plus-square fa-3x social"></i></a>
+                            <a href="mailto:#"><i id="social-em" class="fa fa-envelope-square fa-3x social"></i></a>
+                        </div>
+                        <!-- </div> -->
+                    </section>
+                </div>
+            </div>
+            <!-- </div> -->
+        </div>
+
+
+</body>
+
+
+<script>
+
+    var openClose = 0;
+    function openNav() {
+        if (openClose % 2 == 0) {
+            document.getElementById("mySidebar").style.width = "250px";
+            document.getElementById("main").style.marginLeft = "200px";
+            openClose++;
+        } else {
+            closeNav()
+        }
+    }
+
+
+    function closeNav() {
+        document.getElementById("mySidebar").style.width = "0";
+        document.getElementById("main").style.marginLeft = "0";
+        openClose++;
+    }
+
+    let user = JSON.parse(localStorage.getItem('login_user'));
+    console.log('user----------------------', user);  // 192.168.1.164:3000/api/user/:id
+
+
+    let loginUserId = user.userDetails.user_id;
+
+    $.ajax({
+        url: `http://192.168.1.164:3000/api/user/${loginUserId}`,
+        type: 'GET',
+        dataType: 'json',
+        // data: {'product' : '000000'},
+        success: function (response) {
+            console.log('lllllllllllllllllllllll', response.data.userDetails.wallet.balance);
+            let cashAvailable = response.data.userDetails.wallet.balance || 0;
+            let userAddr = response.data.userDetails.name;
+            cashElement = document.getElementById("cash").innerHTML = `<sup> <span class="s1">$</span> </sup>${cashAvailable}`;
+            uname = document.getElementById('uname').innerHTML = `<b>Your Wallet Address is : </b> <i> ${userAddr}</i>`
+        },
+        error: function (xhr, textStatus, errorThrown) {
+            console.log('Error in Operation');
+        }
+    });
+
+    $('#logout').click(function (e) {
+        // e.preventDefault()
+        // window.location = 'http://192.168.0.120:2002/users/register';
+        window.location = 'http://192.168.0.120:2002/users/login';
+        // localStorage.removeItem('login_user');
+        localStorage.clear();
+    })
+</script>
+
+
+</html>

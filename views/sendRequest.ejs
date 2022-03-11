@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<!-- Created By CodingLab - www.codinglabweb.com -->
+<html lang="en" dir="ltr">
+
+<head>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+    </script>
+    <link href="/stylesheets/select2.min.css" rel="stylesheet" type="text/css" />
+
+    <meta charset="UTF-8">
+    <title> Send request </title>
+    <!-- <link rel="stylesheet" href="style.css"> -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            /* background: linear-gradient(135deg, #71b7e6, #9b59b6); */
+            background: linear-gradient(to top, #bbbaba 0%, #ffffff 100%);
+        }
+
+        .container {
+            max-width: 700px;
+            width: 100%;
+            background-color: #fff;
+            padding: 25px 30px;
+            border-radius: 5px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+            margin-top: -100px;
+            height: 70%;
+        }
+
+        .container .title {
+            font-size: 25px;
+            font-weight: 500;
+            position: relative;
+        }
+
+        .container .title::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            height: 3px;
+            width: 30px;
+            border-radius: 5px;
+            background: linear-gradient(135deg, #71b7e6, #9b59b6);
+        }
+
+        .content form .user-details {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin: 20px 0 12px 0;
+        }
+
+        form .user-details .input-box {
+            margin-bottom: 15px;
+            /* width: calc(100% / 2 - 20px); */
+            width: 100%;
+        }
+
+        form .input-box span.details {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        /* .user-details .input-box input{
+            height: 45px;
+            width: 100%;
+            outline: none;
+            font-size: 16px;
+            border-radius: 5px;
+            padding-left: 15px;
+            border: 1px solid #ccc;
+            border-bottom-width: 2px;
+            transition: all 0.3s ease;
+        } */
+        .input {
+            height: 45px;
+            width: 100%;
+            outline: none;
+            font-size: 16px;
+            border-radius: 5px;
+            padding-left: 15px;
+            border: 1px solid #ccc;
+            border-bottom-width: 2px;
+            transition: all 0.3s ease;
+        }
+
+
+        .user-details .input-box input:focus,
+        .user-details .input-box input:valid {
+            /* border-color: #9b59b6; */
+            border-color: black;
+        }
+
+        form .gender-details .gender-title {
+            font-size: 20px;
+            font-weight: 500;
+        }
+
+        form .category {
+            display: flex;
+            width: 80%;
+            margin: 14px 0;
+            justify-content: space-between;
+        }
+
+        form .category label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        form .category label .dot {
+            height: 18px;
+            width: 18px;
+            border-radius: 50%;
+            margin-right: 10px;
+            background: #d9d9d9;
+            border: 5px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        #genderChoice1:checked~.category label .one,
+        #genderChoice2:checked~.category label .two,
+        #genderChoice3:checked~.category label .three {
+            /* background: #9b59b6; */
+            background: black;
+            border-color: #d9d9d9;
+        }
+
+        form input[type="radio"] {
+            display: none;
+        }
+
+        form .button {
+            height: 45px;
+            margin: 35px 0
+        }
+
+        form .button input {
+            height: 100%;
+            width: 100%;
+            border-radius: 5px;
+            border: none;
+            color: #fff;
+            font-size: 18px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            /* background: linear-gradient(135deg, #71b7e6, #9b59b6); */
+            background-color: rgb(79, 79, 82, 0.5);
+            margin-bottom: 15px;
+        }
+
+        form .button input:hover {
+            /* transform: scale(0.99); */
+            /* background: linear-gradient(-135deg, #71b7e6, #9b59b6); */
+            background-color: rgb(79, 79, 82, 0.7);
+        }
+
+        .eyeIcon {
+            margin-top: 15px;
+            /* left: 815px; */
+            margin-left: -38px;
+            position: absolute;
+        }
+
+        .alert {
+            padding: 12px;
+            background-color: #DFF2BF;
+            color: #270;
+            opacity: 1;
+            transition: opacity 0.6s;
+            margin-bottom: 5px;
+            display: none;
+            /* display: block; */
+            /* max-width: 374px; */
+            word-wrap: break-word;
+        }
+
+        .alert1 {
+            background-color: rgb(196, 88, 88) !important;
+            color: white !important;
+        }
+
+        .c1 {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .select2-dropdown {
+            top: 5px !important;
+            left: 0px !important;
+        }
+
+
+
+        @media(max-width: 584px) {
+            .container {
+                max-width: 100%;
+            }
+
+            form .user-details .input-box {
+                margin-bottom: 15px;
+                width: 100%;
+            }
+
+            form .category {
+                width: 100%;
+            }
+
+            .content form .user-details {
+                max-height: 300px;
+                overflow-y: scroll;
+            }
+
+            .user-details::-webkit-scrollbar {
+                width: 5px;
+            }
+        }
+
+        @media(max-width: 459px) {
+            .container .content .category {
+                flex-direction: column;
+            }
+        }
+    </style>
+    <script>
+
+    </script>
+</head>
+
+<body>
+
+    <!-- <body> -->
+    <div class="container">
+        <div id="success" class="alert">
+            <span class="closebtn">&times;</span>
+        </div>
+        <div id="error" class="alert alert1">
+            <span class="closebtn">&times;</span>
+        </div>
+
+        <div class="title">Send Money Request</div>
+        <div class="content">
+            <form action="#">
+                <!-- <form id="requestForm" action="http://192.168.1.164:3000/auth/login" , method="POST"> -->
+                <div class="user-details">
+                    <div class="input-box">
+                        <span class="details">How much $?</span>
+                        <!-- <input type="text" id="fname" name="firstName" placeholder="Enter your First name" required> -->
+                        <input class="input" type="number" id="amount" name="amount" min="1" value="1" required>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">What for?</span>
+                        <input class="input" type="text" id="reason" name="reason">
+                    </div>
+                    <div class="input-box">
+                        <span class="details">To whom?</span>
+                        <!-- <input type="text" id="reason" name="reason"> -->
+                        <!-- <select class="input" id='user' , name="user">
+                            <option id="default" value="null" selected>Select user</option>
+                        </select> -->
+                        <select id='user' , name="user" class="input select2-container">
+                            <option id="default" value="">Select user</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="button">
+                    <input type="submit" value="Send Request">
+                    <input type="button" value="Cancel" onclick="window.location='http://192.168.0.120:2002/wallet'">
+
+                    <p class="c1">See your send money request history &nbsp; <a
+                            href="http://192.168.0.120:2002/send/request/history">click here</a> </p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>
+<script>
+    console.log('--------------------', document.getElementById("user"));
+    var selectElement = document.getElementById('user');
+    var loginUser = JSON.parse(localStorage.getItem("login_user"));
+    console.log('loginUser-----------', loginUser);
+    var loginUserId = loginUser.userDetails.user_id;
+
+
+    // Get all users who's connect in network...
+    $.ajax({
+        url: "http://192.168.1.164:3000/api/user/?" + $.param({ user_id: Number(loginUserId) }),
+        type: 'GET',
+        dataType: 'json',
+        success: function (res) {
+            // console.log('00000000000', res);
+            console.log('res===========.........', res.data.data_list);
+            let users = res.data.data_list;
+            users.forEach(user => {
+                // console.log("all user ---------", user);
+                // $('#user').append(`<option value="${user}" id=${user.id}> ${user}</option>`);
+                selectElement.options[selectElement.options.length] = new Option(user.name, user.user_id);
+            });
+        }
+    });
+
+
+    $(function () {
+        $('form').on('submit', function (e) {
+            console.log('------dataaaaaaaaa', $('form').serialize());;
+
+            let data = $('form').serialize()
+            const loginUserKey = loginUser.userDetails.wallet.public_key;
+            const loginWalletId = loginUser.userDetails.wallet.wallet_id;
+
+            var selectedUser = $('#user').find(":selected").val();
+            console.log('selectedUser--------=========-', selectedUser);
+            if (selectedUser == "") {
+                $("#error").attr("style", "opacity:1")
+                $("#error").attr("style", "display:block")
+                $('#error').html('<strong>ERROR!</strong> Please select user');
+
+            } else {
+                // const requestedTo = Number($("#user").val());
+
+                // Get requested user public key...
+                let options = {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type':
+                            'application/json;charset=utf-8'
+                    },
+                }
+                e.preventDefault();
+                let fetchRes = fetch(`http://192.168.1.164:3000/api/user/${Number(selectedUser)}`, options);
+                fetchRes.then(res =>
+                    res.json()).then(d => {
+                        let requestedUserKey = d.data.userDetails.wallet.public_key;
+                        const requestedToWalletId = d.data.userDetails.wallet.wallet_id;
+                        console.log('requestedUserKey-----------------------', requestedUserKey);
+
+                        let body = {
+                            amount: $("#amount").val(),
+                            reason: $("#reason").val(),
+                            status: "PENDING",
+                            requestor_public_key: loginUserKey,
+                            requestor_wallet_id: loginWalletId,
+                            requested_to_public_key: requestedUserKey,
+                            requested_to_id: selectedUser,
+                            requested_to_wallet_id: requestedToWalletId
+                        }
+
+                        $.ajax({
+                            type: 'post',
+                            url: 'http://192.168.1.164:3000/api/user/request-money',
+                            data: body, //$('form').serialize(),
+                            success: function (res) {
+                                // e.preventDefault();
+                                console.log('d------------', res);
+
+                                $("#error").attr("style", "opacity:0")
+                                $("#error").attr("style", "display:none")
+                                if (!res.success) {
+                                    $("#error").attr("style", "opacity:1")
+                                    $("#error").attr("style", "display:block")
+                                    $('#error').html(`<strong>${res.message}!</strong>`);
+                                } else {
+                                    $("#success").attr("style", "opacity:1")
+                                    $("#success").attr("style", "display:block")
+                                    $('#success').html(`<strong>${res.message}!</strong>`);
+                                    $("#user").val("null");
+                                    $("#reason").val("")
+                                }
+                            },
+                            error: function (xhr, textStatus, errorThrown) {
+                                $("#error").attr("style", "opacity:1")
+                                $("#error").attr("style", "display:block")
+                                $('#error').html(`<strong>Error in sending request!</strong>`);
+                            }
+                        });
+
+                    });
+            }
+        })
+    });
+</script>
+
+
+
+<script type="text/javascript" src="/javascripts/select2.min.js"></script>
+<script>
+    $("#user").select2({
+        placeholder: "Select User",
+        allowClear: true
+    });
+</script>
+
+</html>
