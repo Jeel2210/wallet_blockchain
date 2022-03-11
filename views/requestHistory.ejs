@@ -327,7 +327,7 @@
                         'application/json;charset=utf-8'
                 },
             }
-            let fetchRes = fetch(`http://192.168.1.164:3000/api/user/${loginUserId}`, options);
+            let fetchRes = fetch(`http://192.168.0.120:3000/api/user/${loginUserId}`, options);
             fetchRes.then(res =>
                 res.json()).then(d => {
                     console.log('d-----------------', d);
@@ -351,7 +351,7 @@
             let queryParams = { page: Number(currentPage), limit: 15 };
             data = { ...data, ...queryParams }
             $.ajax({
-                url: 'http://192.168.1.164:3000/api/user/request-money-history', //+ $.param(queryParams),
+                url: 'http://192.168.0.120:3000/api/user/request-money-history', //+ $.param(queryParams),
                 type: 'GET',
                 dataType: 'json',
                 data: data,
@@ -453,7 +453,7 @@
 
         <div class="div1">
             <h1 class="title"><i>Request Money History</i></h1>
-            <button class="c1" onclick="window.location='http://192.168.0.120:2002/wallet/'">Cancel</button>
+            <button class="c1" onclick="window.location='http://192.168.0.120:3000/api/wallet/'">Cancel</button>
         </div>
         <div class="main1">
             <div class="navbar">
@@ -656,7 +656,7 @@
         activeEle = document.getElementsByClassName('active1')[0].id;
         console.log('activeEle', activeEle);
         if (activeEle !== "pending") {
-            window.location = 'http://192.168.0.120:2002/send/request/history';
+            window.location = 'http://192.168.0.120:3000/api/send/request/history';
         }
     })
 

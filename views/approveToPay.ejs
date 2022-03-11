@@ -443,7 +443,7 @@
                         'application/json;charset=utf-8'
                 },
             }
-            let fetchRes = fetch(`http://192.168.1.164:3000/api/user/${loginUserId}`, options);
+            let fetchRes = fetch(`http://192.168.0.120:3000/api/user/${loginUserId}`, options);
             fetchRes.then(res =>
                 res.json()).then(d => {
                     console.log('d-----------------', d);
@@ -472,7 +472,7 @@
             let queryParams = { page: Number(currentPage), limit: 15 };
             data = { ...data, ...queryParams }
             $.ajax({
-                url: 'http://192.168.1.164:3000/api/user/request-money-history', //+ $.param(queryParams),
+                url: 'http://192.168.0.120:3000/api/user/request-money-history', //+ $.param(queryParams),
                 type: 'GET',
                 dataType: 'json',
                 data: data,
@@ -586,7 +586,7 @@
 
         <div class="div1">
             <h1 class="title"><i>Approve To Pay</i></h1>
-            <button class="c1" onclick="window.location='http://192.168.0.120:2002/wallet/'">Cancel</button>
+            <button class="c1" onclick="window.location='http://192.168.0.120:3000/api/wallet/'">Cancel</button>
         </div>
         <div id="success" class="alert success">
         </div>
@@ -820,7 +820,7 @@
         activeEle = document.getElementsByClassName('active1')[0].id;
         console.log('activeEle', activeEle);
         if (activeEle !== "pending") {
-            window.location = 'http://192.168.0.120:2002/approve/to-pay/';
+            window.location = 'http://192.168.0.120:3000/api/approve/to-pay/';
         }
     })
 
@@ -878,14 +878,14 @@
 
     function payMoney(docId) {
         console.log('docId=====payMoney=====', docId);
-        let data = { request_money_id: Number(docId), status: 'REJECTED' }
+        let data = {} //{ request_money_id: Number(docId), status: 'REJECTED' }
         // confirm model...
         confirmModal(docId, 'payment', data, `Do you want to payment?`)
         // updateStatus(data);
     }
 
     function updateStatus(body) {
-        $.post('http://192.168.1.164:3000/api/user/update-request-status/', body, function (response) {
+        $.post('http://192.168.0.120:3000/api/user/update-request-status/', body, function (response) {
             // alert("success");
             if (!response.success) {
                 $("#error").attr("style", "opacity:1")
@@ -897,7 +897,7 @@
                 $("#error").attr("style", "display:none")
 
                 $("#myModal").css("display", "none");
-                window.location = 'http://192.168.0.120:2002/approve/to-pay/'
+                window.location = 'http://192.168.0.120:3000/api/approve/to-pay/'
                 $("#success").attr("style", "opacity:1")
                 $("#success").attr("style", "display:block")
                 $('#success').html(`<b>${response.message}!</b> `);
@@ -928,11 +928,11 @@
         $("#confirm").click((e) => {
             e.preventDefault()
             if (status == 'payment') {
-                // window.location = 'http://192.168.0.120:2002/add-block/';
+                // window.location = 'http://192.168.0.120:3000/api/add-block/';
                 // console.log('other----------' ,  $('#t3').val());
                 // debugger
                 $.ajax({
-                    url: `http://192.168.1.164:3000/api/user/request-money-by-id`, // + $.param({ user_id: Number(loginUserId) }),
+                    url: `http://192.168.0.120:3000/api/user/request-money-by-id`, // + $.param({ user_id: Number(loginUserId) }),
                     type: 'GET',
                     dataType: 'json',
                     data: { request_money_id: id },
@@ -945,7 +945,7 @@
                         amount = res.data.data.amount;
                         // -------
                         let body = { request_money_id: id, payeer_public_key: localStorage.getItem('loginUserPublicKey'), payee_public_key: receiverKey, amount: amount, requestor: address }
-                        $.post('http://192.168.1.164:3000/api/user/create-transaction-hash', body, function (response) {
+                        $.post('http://192.168.0.120:3000/api/user/create-transaction-hash', body, function (response) {
                             // alert("success");
                             console.log('response===hashhhhhhhhhhhhh==', response);
                             if (!response.success) {
@@ -955,7 +955,7 @@
                             } else {
                                 $("textarea#t1").attr("value", response.data);
                                 body.transaction_hash = response.data;
-                                $.post('http://192.168.1.164:3000/api/user/add-signture', body, function (response) {
+                                $.post('http://192.168.0.120:3000/api/user/add-signture', body, function (response) {
                                     // alert("success");
                                     localStorage.setItem('signature', JSON.stringify(response.data.signature))
                                     console.log('response===ssssssssssssssss==', response.data.signature.data.toString());
@@ -968,7 +968,7 @@
                                         $('#error').html(`<strong>ERROR!</strong> ${response.message}`);
                                     } else {
                                         // $("textarea#t4").attr("value", response.data.signature.data.toString());
-                                        window.location = 'http://192.168.0.120:2002/add-block/';
+                                        window.location = 'http://192.168.0.120:3000/api/add-block/';
                                     }
                                 });
 

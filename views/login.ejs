@@ -252,7 +252,7 @@
         <div class="title">Login</div>
         <div class="content">
             <!-- <form action="#"> -->
-            <form id="userLoginForm" action="http://192.168.1.164:3000/auth/login" , method="POST">
+            <form id="userLoginForm" action="http://192.168.0.120:3000/auth/login" , method="POST">
                 <div class="user-details">
                     <div class="input-box">
                         <!-- <span class="details">Username</span> -->
@@ -272,14 +272,14 @@
                 <div class="button">
                     <input type="submit" class="l1" value="Sign in">
                     <!-- <button type="button" class="cancelbtn"
-                    onclick="window.location='http://192.168.0.120:2002/users/register'">Cancel</button> -->
+                    onclick="window.location='http://192.168.0.120:3000/api/register'">Cancel</button> -->
                     <input type="button" class="cnl" value="Cancel"
-                        onclick="window.location='http://192.168.0.120:2002/users/register'">
+                        onclick="window.location='http://192.168.0.120:3000/api/register'">
 
                     <!-- <p class="c1">Welcome to the app </p> -->
                     <p class="c1">Please start with Block Chain.. </p>
                     <!-- <button id="login" type="button" class="cancelbtn"
-                        onclick="window.location='http://192.168.0.120:2002/users/login'">Login</button> -->
+                        onclick="window.location='http://192.168.0.120:3000/api/login'">Login</button> -->
                 </div>
             </form>
         </div>
@@ -293,7 +293,7 @@
         let loginUser = localStorage.getItem("login_user");
         console.log('loginUser----------', loginUser);
         if (loginUser !== null) {
-            window.location = 'http://192.168.0.120:2002/wallet/'
+            window.location = 'http://192.168.0.120:3000/api/wallet/'
         }
     }
 
@@ -331,7 +331,7 @@
                 localStorage.setItem('login_user', JSON.stringify(res.data));
 
                 // $('#result').text('success');
-                // window.location.href = 'http://192.168.0.120:2002/users/home'
+                // window.location.href = 'http://192.168.0.120:3000/api/user/home'
 
                 $("#error").attr("style", "opacity:0")
                 $("#error").attr("style", "display:none")
@@ -339,7 +339,7 @@
                 $("#success").attr("style", "opacity:1")
                 $("#success").attr("style", "display:block")
                 $('#success').html(`<strong>Successfully login!</strong>`);
-                window.location.href = 'http://192.168.0.120:2002/wallet/'
+                window.location.href = 'http://192.168.0.120:3000/api/wallet/'
             } else {
                 $("#error").attr("style", "opacity:1")
                 $("#error").attr("style", "display:block")

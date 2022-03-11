@@ -11,7 +11,7 @@
     <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script> -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
     </script>
-     <link href="/stylesheets/addBlock.css" rel="stylesheet" type="text/css" />
+    <link href="/stylesheets/addBlock.css" rel="stylesheet" type="text/css" />
     <link href="/stylesheets/select2.min.css" rel="stylesheet" type="text/css" />
 
     <style>
@@ -42,8 +42,12 @@
                 approvedData = JSON.parse(approvedData);
                 console.log('approvedData==========', approvedData);
                 // $("textarea#t2").attr("value", loginUserPublicKey);
+
                 // $("#user").attr("value", approvedData.requestor)
-                $("#user").css("display", "none")
+                $(".select2-container").css("display", "none")
+                //    console.log('=========---------------', document.getElementById('user').css('display' , 'none'))
+                //    document.getElementById('user').style.display = 'none'
+                //    document.getElementsByClassName("user").style.display = "none";
                 $("#selectedUser").val(approvedData.requestor);
 
                 $("#n1").attr("readonly", true);
@@ -56,9 +60,10 @@
                 $("textarea#t4").attr("value", approvedData.signature);
             } else {
                 $("#selectedUser").css("display", "none")
+                $(".select2-container").css("display", "inline-block")
                 // Get all users who's connect in network...
                 $.ajax({
-                    url: "http://192.168.1.164:3000/api/user/?" + $.param({ user_id: Number(loginUserId) }),
+                    url: "http://192.168.0.120:3000/api/user/?" + $.param({ user_id: Number(loginUserId) }),
                     type: 'GET',
                     dataType: 'json',
                     success: function (res) {
@@ -85,7 +90,7 @@
                 },
             }
 
-            let fetchRes = fetch(`http://192.168.1.164:3000/api/user/${loginUserId}`, options);
+            let fetchRes = fetch(`http://192.168.0.120:3000/api/user/${loginUserId}`, options);
             fetchRes.then(res =>
                 res.json()).then(d => {
                     let loginUserPublicKey = d.data.userDetails.wallet.public_key
@@ -110,7 +115,7 @@
                 </div>
                 <div class="navBar"> Add Block
                     <button class="logout" id="logout">Logout</button>
-                    <!-- onclick="window.location='http://192.168.0.120:2002/users/register'" -->
+                    <!-- onclick="window.location='http://192.168.0.120:3000/api/user/register'" -->
                 </div>
                 <div class="text">
                     <p>This is where you can add transactions to this block.</p>
@@ -226,7 +231,7 @@
             },
         }
 
-        let fetchRes = fetch(`http://192.168.1.164:3000/api/user/${id}`, options);
+        let fetchRes = fetch(`http://192.168.0.120:3000/api/user/${id}`, options);
         fetchRes.then(res =>
             res.json()).then(d => {
                 let receiverPublicKey = d.data.userDetails.wallet.public_key
@@ -270,7 +275,7 @@
                     amount: amount,
                     transactionHash: transitionHash
                 }
-                $.post('http://192.168.1.164:3000/api/user/add-block/', body, function (response) {
+                $.post('http://192.168.0.120:3000/api/user/add-block/', body, function (response) {
                     // alert("success");
                     if (!response.success) {
                         $("#error").attr("style", "opacity:1")
@@ -284,8 +289,8 @@
                         let chain = response.data.chain.chain;
                         let lastTransaction = chain[chain.length - 1]
                         localStorage.setItem('lastTransaction', JSON.stringify(lastTransaction))
-                        // window.location = "http://192.168.0.120:2002/transaction/"
-                        window.location = 'http://192.168.0.120:2002/transaction'
+                        // window.location = "http://192.168.0.120:3000/api/transaction/"
+                        window.location = 'http://192.168.0.120:3000/api/transaction'
                     }
                 });
 
@@ -295,15 +300,15 @@
     // }
     $('#logout').click(function (e) {
         e.preventDefault()
-        // window.location = 'http://192.168.0.120:2002/users/register';
-        window.location = 'http://192.168.0.120:2002/users/login';
+        // window.location = 'http://192.168.0.120:3000/api/user/register';
+        window.location = 'http://192.168.0.120:3000/api/login';
         // localStorage.removeItem('login_user');
         localStorage.clear();
     })
 
     $('#cancel').click(function (e) {
         e.preventDefault()
-        window.location = 'http://192.168.0.120:2002/wallet'
+        window.location = 'http://192.168.0.120:3000/api/wallet'
     })
     function amountChange(val) {
         console.log("The input value has changed. The new value is: " + val);
@@ -315,7 +320,7 @@
             $('#error').html('<strong>ERROR!</strong> Please select user');
         } else {
             let body = { payeer_public_key: senderKey, payee_public_key: receiverKey, amount: val }
-            $.post('http://192.168.1.164:3000/api/user/create-transaction-hash', body, function (response) {
+            $.post('http://192.168.0.120:3000/api/user/create-transaction-hash', body, function (response) {
                 // alert("success");
                 console.log('response===hashhhhhhhhhhhhh==', response);
                 if (!response.success) {
@@ -325,7 +330,7 @@
                 } else {
                     $("textarea#t1").val(response.data);
                     body.transaction_hash = response.data;
-                    $.post('http://192.168.1.164:3000/api/user/add-signture', body, function (response) {
+                    $.post('http://192.168.0.120:3000/api/user/add-signture', body, function (response) {
                         // alert("success");
                         localStorage.setItem('signature', JSON.stringify(response.data.signature))
                         console.log('response===ssssssssssssssss==', response.data.signature.data.toString());

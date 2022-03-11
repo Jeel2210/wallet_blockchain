@@ -250,7 +250,7 @@
                         'application/json;charset=utf-8'
                 },
             }
-            let fetchRes = fetch(`http://192.168.1.164:3000/api/user/${loginUserId}`, options);
+            let fetchRes = fetch(`http://192.168.0.120:3000/api/user/${loginUserId}`, options);
             fetchRes.then(res =>
                 res.json()).then(d => {
                     console.log('d-----------------', d);
@@ -273,7 +273,7 @@
             let queryParams = { page: Number(currentPage), limit: 15 };
             data = { ...data, ...queryParams }
             $.ajax({
-                url: 'http://192.168.1.164:3000/api/user/transaction-history', // + $.param(queryParams),
+                url: 'http://192.168.0.120:3000/api/user/transaction-history', // + $.param(queryParams),
                 type: 'GET',
                 dataType: 'json',
                 data: data,
@@ -358,7 +358,7 @@
     <div class="container">
         <div class="div1">
             <h1 class="title"><i> Transactions History </i></h1>
-            <button class="c1" onclick="window.location='http://192.168.0.120:2002/wallet'">Cancel</button>
+            <button class="c1" onclick="window.location='http://192.168.0.120:3000/api/wallet'">Cancel</button>
             <h2>Blocks
                 <div class="tooltip"><i class="fa fa-info-circle info"></i>
                     <span class="tooltiptext">
@@ -384,7 +384,7 @@
             <tbody id="tableBody">
                 <!-- <tr class="border-bottom"> -->
                 <!-- <td>Text 1 000000000 0000000 0000000</td>
-                    <td>Text 200200 000000000000000</td> -->
+                    <td>Text 3000/api00 000000000000000</td> -->
                 <!-- </tr> -->
             </tbody>
         </table>

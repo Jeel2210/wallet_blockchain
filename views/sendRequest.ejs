@@ -268,7 +268,7 @@
         <div class="title">Send Money Request</div>
         <div class="content">
             <form action="#">
-                <!-- <form id="requestForm" action="http://192.168.1.164:3000/auth/login" , method="POST"> -->
+                <!-- <form id="requestForm" action="http://192.168.0.120:3000/auth/login" , method="POST"> -->
                 <div class="user-details">
                     <div class="input-box">
                         <span class="details">How much $?</span>
@@ -292,10 +292,10 @@
                 </div>
                 <div class="button">
                     <input type="submit" value="Send Request">
-                    <input type="button" value="Cancel" onclick="window.location='http://192.168.0.120:2002/wallet'">
+                    <input type="button" value="Cancel" onclick="window.location='http://192.168.0.120:3000/api/wallet'">
 
                     <p class="c1">See your send money request history &nbsp; <a
-                            href="http://192.168.0.120:2002/send/request/history">click here</a> </p>
+                            href="http://192.168.0.120:3000/api/send/request/history">click here</a> </p>
                 </div>
             </form>
         </div>
@@ -312,7 +312,7 @@
 
     // Get all users who's connect in network...
     $.ajax({
-        url: "http://192.168.1.164:3000/api/user/?" + $.param({ user_id: Number(loginUserId) }),
+        url: "http://192.168.0.120:3000/api/user/?" + $.param({ user_id: Number(loginUserId) }),
         type: 'GET',
         dataType: 'json',
         success: function (res) {
@@ -355,7 +355,7 @@
                     },
                 }
                 e.preventDefault();
-                let fetchRes = fetch(`http://192.168.1.164:3000/api/user/${Number(selectedUser)}`, options);
+                let fetchRes = fetch(`http://192.168.0.120:3000/api/user/${Number(selectedUser)}`, options);
                 fetchRes.then(res =>
                     res.json()).then(d => {
                         let requestedUserKey = d.data.userDetails.wallet.public_key;
@@ -375,7 +375,7 @@
 
                         $.ajax({
                             type: 'post',
-                            url: 'http://192.168.1.164:3000/api/user/request-money',
+                            url: 'http://192.168.0.120:3000/api/user/request-money',
                             data: body, //$('form').serialize(),
                             success: function (res) {
                                 // e.preventDefault();

@@ -310,10 +310,10 @@
                     <p class="c1">Please using above userName for login :&nbsp;<a id="login" href="">
                             Sign in
                         </a> </p>
-                    <!-- href="http://192.168.0.120:2002/users/login" -->
+                    <!-- href="http://192.168.0.120:3000/api/user/login" -->
 
                     <!-- <button id="login" type="button" class="cancelbtn"
-                        onclick="window.location='http://192.168.0.120:2002/users/login'">Login</button> -->
+                        onclick="window.location='http://192.168.0.120:3000/api/user/login'">Login</button> -->
                 </div>
             </form>
         </div>
@@ -351,7 +351,7 @@
     $("#login").click(function (e) {
         e.preventDefault();
         console.log("ok===================");
-        window.location = "http://192.168.0.120:2002/users/login"
+        window.location = "http://192.168.0.120:3000/api/login"
     })
     var close = document.getElementsByClassName("closebtn");
     var i;
@@ -372,7 +372,7 @@
             } else {
                 $.ajax({
                     type: 'post',
-                    url: 'http://192.168.1.164:3000/api/user',
+                    url: 'http://192.168.0.120:3000/api/user',
                     data: $('form').serialize(),
                     success: function (res) {
                         console.log('d------------', res, res.status);
@@ -387,7 +387,7 @@
                             // $('#success').html(`<strong>Successfully Register!</strong> <div> Using your name <b><i>${userDetails.name}</i></b> for login in app.<div>`);
                             $('#success').html(`<strong>Registration Successfully!</strong>`);
                             setTimeout(() => {
-                                window.location = 'http://192.168.0.120:2002/users/login';
+                                window.location = 'http://192.168.0.120:3000/api/login';
                             }, 2000);
                         } else {
                             $("#error").attr("style", "opacity:1")

@@ -287,7 +287,7 @@
                     <input type="button" value="Okay!" onclick="nextPage()">
 
                     <p class="c1">Watch your all transaction history:&nbsp;<a id="login"
-                            href="http://192.168.0.120:2002/transaction/history">
+                            href="http://192.168.0.120:3000/api/transaction/history">
                             transactions
                         </a> </p>
                 </div>
@@ -301,9 +301,9 @@
         if (localStorage.getItem('approvedData')) {
             // localStorage.setItem("payment", true)
             // localStorage.removeItem('approvedData')
-            window.location = 'http://192.168.0.120:2002/approve/to-pay/';
+            window.location = 'http://192.168.0.120:3000/api/approve/to-pay/';
         } else {
-            window.location = 'http://192.168.0.120:2002/wallet'
+            window.location = 'http://192.168.0.120:3000/api/wallet'
         }
     }
 </script>
