@@ -225,14 +225,14 @@ const getUserByID = async (req, res, next) => {
       },
       include: [{ model: models.wallet, as: "wallet" }],
       attributes: { exclude: ["password"] },
-      transaction: req.tx,
+      // transaction: req.tx,
     });
-    // userDetails= parse(userDetails);
-    console.log("data==>");
+    userDetails = parse(userDetails);
+    console.log("data==>", userDetails);
 
-    if (!userDetails) errorMessage("No user found.", true);
-
-    let data = new resPattern.successResponse({ userDetails });
+    // if (!userDetails) errorMessage("No user found.", true);
+    let data = new resPattern.successResponse(userDetails);
+    console.log('data--------------' , data);
     res.status(data.status).json(data);
   } catch (error) {
     console.log(error);
@@ -761,7 +761,7 @@ const getAllRequestMoneyHistory = async (req, res, next) => {
           requested_to_public_key: requestedToPublicKey,
           status: status,
         },
-        include: [{ model: models.wallet, as: "requestor" }],
+        include: [{ model: models.wallet, as: "requestor" ,include:[{model:models.user ,as :'user'}]}],
 
         transaction: req.tx,
       });
@@ -787,7 +787,11 @@ const getAllRequestMoneyHistory = async (req, res, next) => {
           requestor_public_key: requestorPublicKey,
           status: status,
         },
-        include: [{ model: models.wallet, as: "requested_to" }],
+
+        // include: [
+        //   {model: models.comments, include: [models.comments.users] }
+        // ]
+        include: [{ model: models.wallet, as: "requested_to" ,include:[{model:models.user ,as :'user'}]}],
 
         transaction: req.tx,
       });

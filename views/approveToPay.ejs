@@ -412,29 +412,10 @@
         //     window.history.forward();
         // }
         $(document).ready(function () {
-            // refreshPage()
-            // window.location.reload();
-            // console.log('document.URL.indexOf("#")===', document.URL, document.URL.indexOf("#"));
-            // if (document.URL.indexOf("#") == -1) {
-            //     // if (document.URL.indexOf("#")) {
-            //     // Set the URL to whatever it was plus "#loaded".
-            //     url = document.URL + "#loaded";
-            //     location = "#loaded";
-            //     //Reload the page using reload() method
-            //     location.reload(true);
-            // }
-
-
             // Get login user public key...
             var loginUserId = Number(JSON.parse(localStorage.getItem("login_user")).userDetails.user_id);
             console.log('loginUserId-----------------', loginUserId);
 
-            if (localStorage.getItem('approvedData')) {
-                approvedData = JSON.parse(localStorage.getItem('approvedData'));
-                console.log('111111111111111111===approvedData-----', approvedData);
-                updateStatus({ request_money_id: Number(approvedData.request_money_id), status: 'COMPLETED' });
-                localStorage.removeItem('approvedData');
-            }
 
             let options = {
                 method: 'GET',
@@ -447,7 +428,7 @@
             fetchRes.then(res =>
                 res.json()).then(d => {
                     console.log('d-----------------', d);
-                    let loginUserPublicKey = d.data.userDetails.wallet.public_key
+                    let loginUserPublicKey = d.data.wallet.public_key
                     console.log('login user data-----------------------', loginUserPublicKey);
                     // return loginUserPublicKey;
                     localStorage.setItem('loginUserPublicKey', loginUserPublicKey)
@@ -482,7 +463,7 @@
                     console.log('aaaaaaaaaaaaaa', response.data.result);
                     // response.data = []
                     let history = response.data.result.rows;
-                    console.log('history===', history);
+                    console.log('history===--------------', history);
                     let total = response.data.result.count;
                     var countFor = '';
                     var action = '';
@@ -557,7 +538,7 @@
                             //     $("#action").css("display", "none")
                             // }
                             trHTML += '<tr class="border-bottom">' +
-                                `<td><a id="" href=""> ${value.requestor.address}</a></td>` +
+                                `<td><a id="" href=""> ${value.requestor.user.name}</a></td>` +
                                 `<td><a id="" href="">${value.amount}</a></td>` +
                                 '<td class = "date">' + date + '</td>' +
                                 // action +
@@ -878,7 +859,7 @@
 
     function payMoney(docId) {
         console.log('docId=====payMoney=====', docId);
-        let data = {} //{ request_money_id: Number(docId), status: 'REJECTED' }
+        let data = { request_money_id: Number(docId), status: 'REJECTED' }
         // confirm model...
         confirmModal(docId, 'payment', data, `Do you want to payment?`)
         // updateStatus(data);
@@ -922,7 +903,7 @@
             }
         }
         $("#close").click(() => {
-            console.log('close....');
+            console.log('close....================');
             $("#myModal").css("display", "none");
         })
         $("#confirm").click((e) => {
@@ -941,10 +922,11 @@
                         console.log('res===== 3======.........', res);
                         let users = res.data.data_list;
                         address = res.data.data.requestor.address;
+                        requestor_id = res.data.data.requestor.user_id;
                         receiverKey = res.data.data.requestor.public_key;
                         amount = res.data.data.amount;
                         // -------
-                        let body = { request_money_id: id, payeer_public_key: localStorage.getItem('loginUserPublicKey'), payee_public_key: receiverKey, amount: amount, requestor: address }
+                        let body = { request_money_id: id, payeer_public_key: localStorage.getItem('loginUserPublicKey'), payee_public_key: receiverKey, amount: amount, requestor: address, requestor_id: requestor_id }
                         $.post('http://192.168.0.120:3000/api/user/create-transaction-hash', body, function (response) {
                             // alert("success");
                             console.log('response===hashhhhhhhhhhhhh==', response);

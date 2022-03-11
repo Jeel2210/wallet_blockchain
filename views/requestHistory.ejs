@@ -331,7 +331,7 @@
             fetchRes.then(res =>
                 res.json()).then(d => {
                     console.log('d-----------------', d);
-                    let loginUserPublicKey = d.data.userDetails.wallet.public_key
+                    let loginUserPublicKey = d.data.wallet.public_key
                     console.log('login user data-----------------------', loginUserPublicKey);
                     // return loginUserPublicKey;
                     localStorage.setItem('loginUserPublicKey', loginUserPublicKey)
@@ -427,7 +427,7 @@
                             date = date1[2] + '/' + date1[1] + '/' + date1[0] + ' ' + date.split(' ')[1]
 
                             trHTML += '<tr class="border-bottom">' +
-                                `<td><a id="" href=""> ${value.requested_to.address}</a></td>` +
+                                `<td><a id="" href=""> ${value.requested_to.user.name}</a></td>` +
                                 `<td><a id="" href="">${value.amount}</a></td>` +
                                 '<td class = "date">' + date + '</td>' +
                                 '</tr>';

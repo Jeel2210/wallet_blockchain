@@ -40,24 +40,33 @@
             console.log('approvedData====', approvedData);
             if (approvedData) {
                 approvedData = JSON.parse(approvedData);
-                console.log('approvedData==========', approvedData);
+                console.log('approvedData=========--------------------=', approvedData.requestor_id);
                 // $("textarea#t2").attr("value", loginUserPublicKey);
 
-                // $("#user").attr("value", approvedData.requestor)
-                $(".select2-container").css("display", "none")
-                //    console.log('=========---------------', document.getElementById('user').css('display' , 'none'))
-                //    document.getElementById('user').style.display = 'none'
-                //    document.getElementsByClassName("user").style.display = "none";
-                $("#selectedUser").val(approvedData.requestor);
+                let options = {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type':
+                            'application/json;charset=utf-8'
+                    },
+                }
+                let fetchRes = fetch(`http://192.168.0.120:3000/api/user/${approvedData.requestor_id}`, options);
+                fetchRes.then(res =>
+                    res.json()).then(d => {
+                        console.log('d----------approvedData.requestor.user_id-------', d);
 
-                $("#n1").attr("readonly", true);
-                $("#n1").attr("value", approvedData.amount);
-                $("textarea#t1").attr("readonly", true);
-                $("textarea#t1").attr("value", approvedData.transaction_hash);
-                $("textarea#t3").attr("readonly", true);
-                $("textarea#t3").attr("value", approvedData.payee_public_key);
-                $("textarea#t4").attr("readonly", true);
-                $("textarea#t4").attr("value", approvedData.signature);
+                        // $("#user").attr("value", approvedData.requestor)
+                        $(".select2-container").css("display", "none")
+                        $("#selectedUser").val(d.data.name);
+                        $("#n1").prop("readonly", true);
+                        $("#n1").val(approvedData.amount);
+                        $("textarea#t1").val(true);
+                        $("textarea#t1").val(approvedData.transaction_hash);
+                        $("textarea#t3").prop("readonly", true);
+                        $("textarea#t3").val(approvedData.payee_public_key);
+                        $("textarea#t4").prop("readonly", true);
+                        $("textarea#t4").val(approvedData.signature);
+                    })
             } else {
                 $("#selectedUser").css("display", "none")
                 $(".select2-container").css("display", "inline-block")
@@ -93,7 +102,7 @@
             let fetchRes = fetch(`http://192.168.0.120:3000/api/user/${loginUserId}`, options);
             fetchRes.then(res =>
                 res.json()).then(d => {
-                    let loginUserPublicKey = d.data.userDetails.wallet.public_key
+                    let loginUserPublicKey = d.data.wallet.public_key
                     console.log('login user data-----------------------', loginUserPublicKey);
                     // $("textarea#t2").attr("value", loginUserPublicKey);
                     $("textarea#t2").val(loginUserPublicKey);
@@ -129,7 +138,7 @@
                     <b> Select User : </b><select id='user' , name="user" class="select2-container">
                         <option id="default" value="">Select user</option>
                     </select>
-                    <input type="text" id="selectedUser" readonly />
+                    <input type="text" id="selectedUser" value="" readonly />
 
 
                     <!-- <div class="div3"> -->
@@ -234,7 +243,7 @@
         let fetchRes = fetch(`http://192.168.0.120:3000/api/user/${id}`, options);
         fetchRes.then(res =>
             res.json()).then(d => {
-                let receiverPublicKey = d.data.userDetails.wallet.public_key
+                let receiverPublicKey = d.data.wallet.public_key
                 console.log('receiverPublicKey-----------------------', receiverPublicKey);
                 $("textarea#t3").val(receiverPublicKey);
 
@@ -246,8 +255,10 @@
         console.log(':::::: Moon');
         e.preventDefault()
         var selectedUser = $('#user').find(":selected").val();
+        var autoSelectUser = $("#selectedUser").val()
+        console.log('============================nameeeeee===========', $("#selectedUser").val());
         console.log('selectedUser--------=========----------------------------------------------------', selectedUser);
-        if (selectedUser == "") {
+        if (selectedUser == "" && autoSelectUser == "") {
             $("#error").attr("style", "opacity:1")
             $("#error").attr("style", "display:block")
             $('#error').html('<strong>ERROR!</strong> Please select user');
@@ -290,7 +301,34 @@
                         let lastTransaction = chain[chain.length - 1]
                         localStorage.setItem('lastTransaction', JSON.stringify(lastTransaction))
                         // window.location = "http://192.168.0.120:3000/api/transaction/"
-                        window.location = 'http://192.168.0.120:3000/api/transaction'
+                        console.log('localStorage.getItem ====approvedData', localStorage.getItem('approvedData'));
+                        if (localStorage.getItem('approvedData')) {
+                            approvedData = JSON.parse(localStorage.getItem('approvedData'));
+                            console.log('111111111111111111===approvedData-----', approvedData);
+                            // updateStatus({ request_money_id: Number(approvedData.request_money_id), status: 'COMPLETED' });
+                            body = { request_money_id: Number(approvedData.request_money_id), status: 'COMPLETED' }
+                            $.post('http://192.168.0.120:3000/api/user/update-request-status/', body, function (response) {
+                                // alert("success");
+                                if (!response.success) {
+                                    $("#error").attr("style", "opacity:1")
+                                    $("#error").attr("style", "display:block")
+                                    $('#error').html(`<strong>ERROR!</strong> ${response.message}`);
+                                } else {
+                                    console.log('response.data.chain.length---------------', response.data);
+                                    $("#error").attr("style", "opacity:0")
+                                    $("#error").attr("style", "display:none")
+
+                                    $("#myModal").css("display", "none");
+                                    localStorage.removeItem('approvedData');
+                                    window.location = 'http://192.168.0.120:3000/api/approve/to-pay/'
+                                    $("#success").attr("style", "opacity:1")
+                                    $("#success").attr("style", "display:block")
+                                    $('#success').html(`<b>${response.message}!</b> `);
+                                }
+                            });
+                        } else {
+                            window.location = 'http://192.168.0.120:3000/api/transaction'
+                        }
                     }
                 });
 

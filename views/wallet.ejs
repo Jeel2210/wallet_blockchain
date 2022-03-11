@@ -538,9 +538,9 @@
         dataType: 'json',
         // data: {'product' : '000000'},
         success: function (response) {
-            console.log('lllllllllllllllllllllll', response.data.userDetails.wallet.balance);
-            let cashAvailable = response.data.userDetails.wallet.balance || 0;
-            let userAddr = response.data.userDetails.wallet.address;
+            console.log('lllllllllllllllllllllll', response.data.wallet.balance);
+            let cashAvailable = response.data.wallet.balance || 0;
+            let userAddr = response.data.wallet.address;
             cashElement = document.getElementById("cash").innerHTML = `<sup> <span class="s1">$</span> </sup>${cashAvailable}`;
             uname = document.getElementById('uname').innerHTML = `<b>Your Wallet Address is : </b> <i> ${userAddr}</i>`
         },

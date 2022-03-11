@@ -292,7 +292,8 @@
                 </div>
                 <div class="button">
                     <input type="submit" value="Send Request">
-                    <input type="button" value="Cancel" onclick="window.location='http://192.168.0.120:3000/api/wallet'">
+                    <input type="button" value="Cancel"
+                        onclick="window.location='http://192.168.0.120:3000/api/wallet'">
 
                     <p class="c1">See your send money request history &nbsp; <a
                             href="http://192.168.0.120:3000/api/send/request/history">click here</a> </p>
@@ -358,7 +359,7 @@
                 let fetchRes = fetch(`http://192.168.0.120:3000/api/user/${Number(selectedUser)}`, options);
                 fetchRes.then(res =>
                     res.json()).then(d => {
-                        let requestedUserKey = d.data.userDetails.wallet.public_key;
+                        let requestedUserKey = d.data.wallet.public_key;
                         const requestedToWalletId = d.data.userDetails.wallet.wallet_id;
                         console.log('requestedUserKey-----------------------', requestedUserKey);
 
@@ -393,6 +394,7 @@
                                     $('#success').html(`<strong>${res.message}!</strong>`);
                                     $("#user").val("null");
                                     $("#reason").val("")
+                              
                                 }
                             },
                             error: function (xhr, textStatus, errorThrown) {
