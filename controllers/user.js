@@ -1,14 +1,13 @@
+/* eslint-disable array-callback-return */
 const { Op } = require('sequelize');
-const { errorMessage, parse, createPassword, validatePassword, searchQuery, calculateExpireOn, pagination, sequelize_order, sequelizeDateFilter } = require("../helpers/utils");
+const { errorMessage, parse, createPassword, pagination } = require("../helpers/utils");
 const resPattern = require("../helpers/responsePattern");
 const models = require('../models');
 const WalletClass = require('../helpers/wallet');
 const Transaction = require('../helpers/transaction');
-const sha256 = require('crypto-js/sha256')
+// const sha256 = require('crypto-js/sha256')
 const crypto = require('crypto');
-const { prevUntil } = require('cheerio/lib/api/traversing');
 let Wallet = WalletClass.Wallet
-let Money = WalletClass.SendMoney
 let signature;
 /**
  * @param {Object} req 
@@ -20,8 +19,17 @@ let signature;
 const userRegister = async (req, res, next) => {
 	try {
 		req.body.password = req.body.password ? createPassword(req.body.password) : undefined;
+		// let checkEmailExist= 
+		const checkEmailExist = await models.user.findOne({
+			where: {
+				email: req.body.email
+			},
+		});
+		if (checkEmailExist) return errorMessage('Already registered', true);
+
 		let createBody = {
 			role: req.body.role,
+			name: req.body.firstName + ' ' + req.body.lastName,
 			email: req.body.email,
 			phone: req.body.contact,
 			// age: req.body.age,
@@ -29,12 +37,13 @@ const userRegister = async (req, res, next) => {
 			gender: req.body.gender,
 			password: req.body.password
 		};
+
 		createBody = parse(createBody);
 		//
 		let wallet = new Wallet()
 		wallet = wallet.initializeWallet()
 
-		createBody.name = wallet.name;
+		// createBody.name = wallet.name;
 
 		let userDetails = await models.user.create(createBody, { transaction: req.tx });
 		if (!userDetails) errorMessage('Failed to create user.', true);
@@ -246,8 +255,6 @@ const sendMoney = async (req, res, next) => {
 		let payeerPublicKey = req.body.payeer_public_key;
 		let payeePublicKey = req.body.payee_public_key;
 		let amount = req.body.amount;
-		let payeerWalletId = req.body.payeer_wallet_id;
-		let payeeWalletId = req.body.payee_wallet_id;
 
 
 		console.log("payeer name : " + payeerPublicKey + "Payee name : " + payeePublicKey);
@@ -525,10 +532,7 @@ const transactionHistory = async (req, res, next) => {
 		senderBlockHistories = parse(senderBlockHistories);
 
 		console.log("data==>", senderBlockHistories.rows);
-		console.log("data12==>", senderBlockHistories.rows.map(el => {
-			console.log(el.node)
-			el.node
-		}));
+		console.log("data12==>", senderBlockHistories.rows.map(el => el.node));
 
 		let wallet = new Wallet()
 		let chain = wallet.getChainInstance();
@@ -610,7 +614,7 @@ const ApproveToPay = async (req, res, next) => {
 		**/
 
 		let status = req.body.status;
-		let requestId = req.body.request_money_id;
+		let requestId = req.body.request_money_id || req.query.request_money_id;
 
 		console.log("Requestor name : " + parseInt(requestId), status);
 
@@ -667,8 +671,8 @@ const getAllRequestMoneyHistory = async (req, res, next) => {
 					status: status,
 				},
 				include: [{ model: models.wallet, as: 'requestor' }],
-
-				transaction: req.tx
+				...pagination(req)
+				// transaction: req.tx
 			});
 
 			countResult = await models.request_money.count({
@@ -679,8 +683,10 @@ const getAllRequestMoneyHistory = async (req, res, next) => {
 				},
 				// include: [{ model: models.wallet, as: 'requestor' }],
 				group: ['status'],
-				transaction: req.tx
+
+				// transaction: req.tx
 			});
+			console.log(countResult);
 		}
 		else if (requestorPublicKey) {
 			//requestor_public_key who will watch the status
@@ -696,8 +702,9 @@ const getAllRequestMoneyHistory = async (req, res, next) => {
 					status: status,
 				},
 				include: [{ model: models.wallet, as: 'requested_to' }],
+				...pagination(req)
 
-				transaction: req.tx
+				// transaction: req.tx
 			});
 
 			countResult = await models.request_money.count({
@@ -708,13 +715,15 @@ const getAllRequestMoneyHistory = async (req, res, next) => {
 				},
 				// include: [{ model: models.wallet, as: 'requestor' }],
 				group: ['status'],
-				transaction: req.tx
+				// transaction: req.tx
 			});
+			console.log(countResult);
+
 		}
 
 		console.log("fetch the History.", countResult)
-		// console.log(result);
-		// if (!result) errorMessage('Failed to fetch the request history.', true);
+		console.log(result);
+		if (!result) errorMessage('Failed to fetch the request history.', true);
 		let data = new resPattern.successResponse({ result, statusCount: countResult }, 'Request History fetched successfully');
 		res.status(data.status).json(data);
 	} catch (error) {

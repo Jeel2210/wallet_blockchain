@@ -20,7 +20,7 @@ const signIn = async (req, res, next) => {
 			include: [{ model: models.wallet, as: 'wallet', attributes: ['balance','wallet_id','public_key'] }],
 			attributes: ['user_id','name','email','password','role'],
 			where: {
-				name: req.body.name,
+				email: req.body.name,
 				is_active: true,
 				is_deleted: false,
 			},
